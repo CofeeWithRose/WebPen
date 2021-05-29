@@ -1,6 +1,6 @@
 
-import React, { useRef } from 'react'
-import { create, PenPannel } from 'webpen';
+import React, { useEffect, useRef } from 'react'
+import { create, PenPannel, Pen } from 'webpen';
 export default {
     title: 'Example/Pannel',
     component: Pannel,
@@ -8,7 +8,18 @@ export default {
 console.log(create);
 
 export function Pannel() {
-    const pannelRef = useRef<PenPannel>(null)
+  
+    const pannelRef = useRef<PenPannel|null>(null)
+    const conainerRef = useRef<HTMLDivElement>(null)
 
-    return <div/>
+    useEffect(() => {
+      if(!conainerRef.current) return
+      const pannel = pannelRef.current = create(conainerRef.current)
+      pannel.usePen(Pen)
+      pannel.loadWork()
+      pannel.getWork()
+
+    }, [])
+
+    return <div ref={conainerRef}/>
 }
