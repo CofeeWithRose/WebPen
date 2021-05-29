@@ -1,0 +1,47 @@
+{
+  "name": "webpen",
+  "version": "0.0.0",
+  "description": "pwa web pen",
+  "main": "lib/src/index.js",
+  "scripts": {
+    "start": "npm run sb",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sb": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "files": [
+    "lib/src/*"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CofeeWithRose/WebPen.git"
+  },
+  "keywords": [
+    "paint",
+    "web",
+    "pen",
+    "pencil"
+  ],
+  "author": "cofeewithrose",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CofeeWithRose/WebPen/issues"
+  },
+  "homepage": "https://github.com/CofeeWithRose/WebPen#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/react": "^6.2.9",
+    "babel-loader": "^8.2.2",
+    "react": "^17.0.2",
+    "react-docgen-typescript-plugin": "^0.7.1",
+    "react-dom": "^17.0.2"
+  },
+  "paths": { 
+    "@": [ "./src/index.ts" ]
+  },
+  "dependencies": {}
+}

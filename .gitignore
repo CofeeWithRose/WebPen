@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 tt
+/src/stories
 
 # testing
 /coverage
