@@ -79,20 +79,7 @@ export class Pen {
         this.gl.useProgram(this.program)
         this.setWindowSize(this.gl.canvas.width, this.gl.canvas.height)
 
-        this.gl.enableVertexAttribArray(this.bufferInfo['a_press'].location)
-        this.gl.vertexAttribPointer(this.bufferInfo['a_press'].location, 1, this.gl.FLOAT, false, 0,0)
-
-        this.gl.enableVertexAttribArray(this.bufferInfo['a_offetDirection'].location)
-        this.gl.vertexAttribPointer(this.bufferInfo['a_offetDirection'].location, 1, this.gl.FLOAT, false, 0,0)
-
-        this.gl.enableVertexAttribArray(this.bufferInfo['a_position0'].location)
-        this.gl.vertexAttribPointer(this.bufferInfo['a_position0'].location, 2, this.gl.FLOAT, false, 0,0)
-
-        this.gl.enableVertexAttribArray(this.bufferInfo['a_position1'].location)
-        this.gl.vertexAttribPointer(this.bufferInfo['a_position1'].location, 2, this.gl.FLOAT, false, 0,0)
-
-        this.gl.enableVertexAttribArray(this.bufferInfo['a_position'].location)
-        this.gl.vertexAttribPointer(this.bufferInfo['a_position'].location, 2, this.gl.FLOAT, false, 0,0)
+      
 
 
     }
@@ -171,10 +158,34 @@ export class Pen {
            
         }
         this.setAttrData('a_position', position)
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_position'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_position'].location, 2, this.gl.FLOAT, false, 0,0)
+
         this.setAttrData('a_position0', position0)
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_position0'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_position0'].location, 2, this.gl.FLOAT, false, 0,0)
+
         this.setAttrData('a_position1', position1)
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_position1'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_position1'].location, 2, this.gl.FLOAT, false, 0,0)
+
         this.setAttrData('a_offetDirection', offetDirection)
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_offetDirection'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_offetDirection'].location, 1, this.gl.FLOAT, false, 0,0)
+
         this.setAttrData('a_press', press)
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_press'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_press'].location, 1, this.gl.FLOAT, false, 0,0)
+
+      
+        
+
+      
+
+       
+
+       
+
         
         this.count = (data.length -1) * 2
         
@@ -183,7 +194,7 @@ export class Pen {
     draw(): void {
         console.log('draw...');
         
-        this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count)
+        this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count *3)
     }
 
 
