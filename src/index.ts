@@ -1,11 +1,12 @@
-import type { PenPannel } from "./types/PenPannel";
+import type { Pannel } from "./Pannel/types/PannelInfer";
 
 export type { PenConstructor, PenInfer } from './Pen/types/PenInfer'
-export type { PenPannel };
+export type { Pannel as PenPannel };
 
 export { Pen } from './Pen/Pen'
 
-export function create(container: HTMLElement): PenPannel {
 
-    return {} as PenPannel
+export function create(container: HTMLElement): Pannel {
+
+    return {} as Pannel
 }
