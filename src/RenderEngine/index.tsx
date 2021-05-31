@@ -60,8 +60,11 @@ export class RenderEngin {
       if(layerEl.id === activeLayerId) {
         this.renderBrushes( this.activeCanvas, layerEl.getChildren() )
         targetCanvas = this.bottomCanvas
+        return
       } 
       this.renderBrushes( targetCanvas, layerEl.getChildren() )
+      
+      
     })
 
   }

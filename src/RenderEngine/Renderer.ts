@@ -26,7 +26,6 @@ export class Renderer {
     renderBrush(brushEl: BrushEl): void {
         const { brushType, state, data } = brushEl
         this.pen.active()
-
         this.pen.setInfo(state, data)
         this.pen.draw()
     }

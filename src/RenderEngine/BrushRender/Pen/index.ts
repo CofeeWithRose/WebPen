@@ -78,10 +78,6 @@ export class Pen {
     active() {
         this.gl.useProgram(this.program)
         this.setWindowSize(this.gl.canvas.width, this.gl.canvas.height)
-
-      
-
-
     }
 
     setInfo(state: BrushState, data: BrushTrackData[]) {
@@ -143,20 +139,22 @@ export class Pen {
             offetDirection[ index *  pointCount ] = 1
             offetDirection[ index *  pointCount ] = -1
             offetDirection[ index *  pointCount ] = -1
-            offetDirection[ index *  pointCount ] = 1
             offetDirection[ index *  pointCount ] = -1
+            offetDirection[ index *  pointCount ] = 1
             offetDirection[ index *  pointCount ] = 1
 
             
-            offetDirection[ index *  pointCount ] = press0
-            offetDirection[ index *  pointCount ] = press0
-            offetDirection[ index *  pointCount ] = press1
-            offetDirection[ index *  pointCount ] = press1
-            offetDirection[ index *  pointCount ] = press1
-            offetDirection[ index *  pointCount ] = press0
+            press[ index *  pointCount ] = press0
+            press[ index *  pointCount ] = press0
+            press[ index *  pointCount ] = press1
+            press[ index *  pointCount ] = press1
+            press[ index *  pointCount ] = press1
+            press[ index *  pointCount ] = press0
 
            
         }
+        console.log(position);
+        
         this.setAttrData('a_position', position)
         this.gl.enableVertexAttribArray(this.bufferInfo['a_position'].location)
         this.gl.vertexAttribPointer(this.bufferInfo['a_position'].location, 2, this.gl.FLOAT, false, 0,0)
@@ -177,16 +175,6 @@ export class Pen {
         this.gl.enableVertexAttribArray(this.bufferInfo['a_press'].location)
         this.gl.vertexAttribPointer(this.bufferInfo['a_press'].location, 1, this.gl.FLOAT, false, 0,0)
 
-      
-        
-
-      
-
-       
-
-       
-
-        
         this.count = (data.length -1) * 2
         
     }
@@ -194,7 +182,7 @@ export class Pen {
     draw(): void {
         console.log('draw...');
         
-        this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count *3)
+        this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count*3)
     }
 
 
