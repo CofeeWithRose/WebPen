@@ -12,9 +12,10 @@ export abstract class PElement<CHILD extends PElement<any>> {
 
     private children: CHILD[] = []
 
-    addChild(child: CHILD): void {
+    addChild(child: CHILD): CHILD {
       child.parent = this
       this.children.push(child)
+      return child
     }
 
     removeChild(id: string): void {

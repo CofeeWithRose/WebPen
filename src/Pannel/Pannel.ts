@@ -1,6 +1,7 @@
 import { defaultState } from "../Brush/Pen";
 import { BrushConstructor, BrushState, BRUSH_TYPES } from "../Brush/types/PenInfer";
 import { PannelEl } from "../PElement/PannelEl";
+import { RenderEngin } from "../RenderEngine";
 import { PannelInfer, PannelOptions } from "./types/PannelInfer";
 
 export class Pannel implements PannelInfer {
@@ -11,10 +12,16 @@ export class Pannel implements PannelInfer {
 
     pannelEl: PannelEl|null = null
 
-    constructor(container:HTMLElement, opt: PannelOptions) {}
+    renderEngin: RenderEngin
 
-    async load(pannelEl: PannelEl): Promise<void> {
-      this.pannelEl = pannelEl
+    constructor(container:HTMLElement, opt?: PannelOptions) {
+      opt = { width: 800, height: 800, ...opt}
+      this.renderEngin = new RenderEngin(container, opt)
+    }
+
+    async load(pannelEl?: PannelEl): Promise<void> {
+      this.pannelEl = pannelEl|| new PannelEl()
+      this.renderEngin.load(this.pannelEl)
     }
 
     useBrush(brushType: string | BRUSH_TYPES): void {

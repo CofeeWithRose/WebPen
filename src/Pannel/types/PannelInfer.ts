@@ -23,13 +23,14 @@ export  interface PannelInfer {
      * 加载作品.
      * @param pannelEl 
      */
-    load(pannelEl: PannelEl): Promise<void>
+    load(pannelEl?: PannelEl): Promise<void>
 
 }
 
 
 export interface PannelOptions {
 
-  size: { w : number, h: number }
+  width : number, 
+  height: number
 }
 
