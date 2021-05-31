@@ -31,19 +31,21 @@ export class Pen {
 
         // // 压感 0~1.
         this.createAttrBuffer('a_press')
-
+       
         // // 偏移方向 -1/1.
         this.createAttrBuffer('a_offetDirection')
+        
 
         // // 开始坐标.
         this.createAttrBuffer('a_position0')
+       
 
         // // 结束坐标.
         this.createAttrBuffer('a_position1')
-
+      
         // // 当前坐标.
         this.createAttrBuffer('a_position')
-        
+     
     }
 
     private createAttrBuffer(name: string) {
@@ -76,6 +78,23 @@ export class Pen {
     active() {
         this.gl.useProgram(this.program)
         this.setWindowSize(this.gl.canvas.width, this.gl.canvas.height)
+
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_press'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_press'].location, 1, this.gl.FLOAT, false, 0,0)
+
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_offetDirection'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_offetDirection'].location, 1, this.gl.FLOAT, false, 0,0)
+
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_position0'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_position0'].location, 2, this.gl.FLOAT, false, 0,0)
+
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_position1'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_position1'].location, 2, this.gl.FLOAT, false, 0,0)
+
+        this.gl.enableVertexAttribArray(this.bufferInfo['a_position'].location)
+        this.gl.vertexAttribPointer(this.bufferInfo['a_position'].location, 2, this.gl.FLOAT, false, 0,0)
+
+
     }
 
     setInfo(state: BrushState, data: BrushTrackData[]) {
@@ -92,14 +111,71 @@ export class Pen {
         const press = new Float32Array(pointCount)
        
         for(let i = 1; i< data.length; i++) {
-            const { position: {x, y}, press } = data[i]
-            // position1[i*2] =  
+            const { position: {x: x0, y: y0}, press: press0 } = data[i-1]
+            const { position: {x: x1, y: y1}, press: press1 } = data[i]
+            const index = i-1
+            position0[ index * pointCount ] = x0
+            position0[ index*  pointCount + 1 ] = y0
+            position0[ index * pointCount + 2 ] = x0
+            position0[ index*  pointCount + 3 ] = y0
+            position0[ index * pointCount + 4] = x0
+            position0[ index*  pointCount + 5 ] = y0
+            position0[ index * pointCount +6] = x0
+            position0[ index*  pointCount + 7 ] = y0
+            position0[ index * pointCount +8] = x0
+            position0[ index*  pointCount + 9 ] = y0
+            position0[ index * pointCount +10 ] = x0
+            position0[ index*  pointCount + 11 ] = y0
+
+            position1[ index *  pointCount ] = x1
+            position1[ index *  pointCount + 3 ] = y1
+            position1[ index *  pointCount + 4] = x1
+            position1[ index *  pointCount + 5 ] = y1
+            position1[ index *  pointCount + 6] = x1
+            position1[ index *  pointCount + 7 ] = y1
+            position1[ index *  pointCount + 8] = x1
+            position1[ index *  pointCount + 9 ] = y1
+            position1[ index *  pointCount + 10] = x1
+            position1[ index *  pointCount + 11 ] = y1
+
+            position[ index *  pointCount ] = x0
+            position[ index *  pointCount + 1 ] = y0
+            position[ index *  pointCount + 2] = x0
+            position[ index *  pointCount + 3 ] = y0
+            position[ index *  pointCount + 4] = x1
+            position[ index *  pointCount + 5 ] = y1
+            position[ index *  pointCount + 6] = x1
+            position[ index *  pointCount + 7 ] = y1
+            position[ index *  pointCount + 8] = x1
+            position[ index *  pointCount + 9 ] = y1
+            position[ index *  pointCount + 10] = x0
+            position[ index *  pointCount + 11 ] = y0
+
+            
+
+            offetDirection[ index *  pointCount ] = 1
+            offetDirection[ index *  pointCount ] = -1
+            offetDirection[ index *  pointCount ] = -1
+            offetDirection[ index *  pointCount ] = 1
+            offetDirection[ index *  pointCount ] = -1
+            offetDirection[ index *  pointCount ] = 1
+
+            
+            offetDirection[ index *  pointCount ] = press0
+            offetDirection[ index *  pointCount ] = press0
+            offetDirection[ index *  pointCount ] = press1
+            offetDirection[ index *  pointCount ] = press1
+            offetDirection[ index *  pointCount ] = press1
+            offetDirection[ index *  pointCount ] = press0
+
+           
         }
         this.setAttrData('a_position', position)
         this.setAttrData('a_position0', position0)
         this.setAttrData('a_position1', position1)
         this.setAttrData('a_offetDirection', offetDirection)
         this.setAttrData('a_press', press)
+        
         this.count = (data.length -1) * 2
         
     }

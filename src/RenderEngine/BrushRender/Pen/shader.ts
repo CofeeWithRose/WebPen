@@ -48,6 +48,6 @@ export const FRAGMENT_SHADER = `
 
     void main(){
     
-        gl_FragColor = u_brushColor;
+        gl_FragColor = vec4(0,0,0,1);
     }
 `

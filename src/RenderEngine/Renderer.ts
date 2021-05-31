@@ -19,6 +19,8 @@ export class Renderer {
         if(!gl) throw new Error('get webgl context faild')
         this.gl = gl
         this.pen = new Pen(gl)
+        this.canvas.setAttribute('hhh', '123123')
+        document.body.appendChild(this.canvas)
     }
 
 
@@ -26,6 +28,7 @@ export class Renderer {
     renderBrush(brushEl: BrushEl): void {
         const { brushType, state, data } = brushEl
         this.pen.active()
+        
         this.pen.setInfo(state, data)
         this.pen.draw()
     }
