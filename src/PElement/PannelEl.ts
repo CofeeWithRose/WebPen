@@ -7,4 +7,6 @@ export class PannelEl extends PElement<PannelElChild> {
 
     readonly tag = EL_TAGS.LAYER
 
+    activeLayerId = ''
+
 }

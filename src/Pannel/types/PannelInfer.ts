@@ -1,4 +1,4 @@
-import { BrushConstructor, BrushInfer } from "../../Brush/types/PenInfer";
+import { BrushConstructor, BrushInfer, BrushState, BRUSH_TYPES } from "../../Brush/types/PenInfer";
 import { PannelEl } from "../../PElement/PannelEl";
 
 
@@ -7,12 +7,17 @@ import { PannelEl } from "../../PElement/PannelEl";
  */
 export  interface PannelInfer {
 
+    brushState: BrushState
+    
+    brushType: string
+
     /**
      * 设置当前画笔类型.
      * @param peninfer 
      */
-    useBrush(peninfer: BrushConstructor ): Promise<BrushInfer>
+    useBrush( brushType: BRUSH_TYPES|string ): void
 
+    registBrush(brushType: string, brush: BrushConstructor): void
 
     /**
      * 加载作品.
@@ -20,5 +25,11 @@ export  interface PannelInfer {
      */
     load(pannelEl: PannelEl): Promise<void>
 
+}
+
+
+export interface PannelOptions {
+
+  size: { w : number, h: number }
 }
 

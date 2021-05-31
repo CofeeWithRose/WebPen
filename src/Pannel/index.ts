@@ -1,10 +1,7 @@
-import { PannelInfer } from "./types/PannelInfer";
+import { PannelInfer, PannelOptions } from "./types/PannelInfer";
 
-export interface PannelOptions {
 
-    size: { w : number, h: number }
-}
 
 export function createPannel( container:HTMLElement, opt: PannelOptions ): PannelInfer {
-    return 
+    return {} as PannelInfer
 }
