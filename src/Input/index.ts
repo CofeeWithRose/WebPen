@@ -18,7 +18,7 @@ export class Input {
 
     public onBegin(brush:BrushEl) {}
 
-    public onUpdate() {}
+    public onUpdate(brush:BrushEl) {}
 
     public onEnd() {}
 
@@ -55,7 +55,7 @@ export class Input {
         if (!this.curBrush) return
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
         this.loadBrushData(events)
-        this.onUpdate()
+        this.onUpdate(this.curBrush)
     }
 
     private onPointEnd = (e:PointerEvent) => {

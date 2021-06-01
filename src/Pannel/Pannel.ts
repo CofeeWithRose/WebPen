@@ -43,14 +43,15 @@ export class Pannel implements PannelInfer {
       if (!this.pannelEl) return
       const activeLayer = this.pannelEl?.getActiveLayer()
       activeLayer?.addChild(brushEl)
-      this.renderEngin.renderTree()
+      this.renderEngin.renderBrsuh(brushEl)
     }
 
-    private onInputUpdate = () => {
-      this.renderEngin.renderTree()
+    private onInputUpdate = (brushEl: BrushEl) => {
+      this.renderEngin.renderBrsuh(brushEl)
     }
 
     private onInputEnd = () => {
+      this.renderEngin.submitActiveLayer()
       // console.log(JSON.stringify(this.pannelEl));
     }
 

@@ -85,9 +85,7 @@ export class RenderEngin {
     let targetCanvas = this.topCanvas
     layers.forEach((layerEl) => {
       if(layerEl.id === activeLayerId) {
-        this.renderBrushes( this.activeCanvas, layerEl.getChildren() )
         targetCanvas = this.bottomCanvas
-        return
       } 
       this.renderBrushes( targetCanvas, layerEl.getChildren() )
     })
@@ -103,6 +101,23 @@ export class RenderEngin {
     this.renderer.clear()
     brushELList.forEach( brushEl => this.renderer.renderBrush(brushEl) )
     ctx.drawImage(this.renderer.canvas, 0, 0)
+  }
+
+  submitActiveLayer() {
+    const bottomCtx = this.bottomCanvas.getContext('2d')
+    bottomCtx?.drawImage(this.activeCanvas, 0, 0)
+    const activeCtx = this.activeCanvas.getContext('2d')
+    activeCtx?.clearRect(0, 0, this.activeCanvas.width, this.activeCanvas.height)
+  }
+
+  renderBrsuh(el: BrushEl) {
+    console.time('rb')
+    const ctx = this.activeCanvas.getContext('2d')
+    ctx?.clearRect(0, 0, this.activeCanvas.width, this.activeCanvas.height)
+    this.renderer.clear()
+    this.renderer.renderBrush(el)
+    ctx?.drawImage(this.renderer.canvas, 0, 0)
+    console.timeEnd('rb')
   }
 
 }
