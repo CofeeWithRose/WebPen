@@ -28,13 +28,14 @@ precision highp float;
     
     void main() { 
 
-        float dist = 100.0 * a_offetDirection * a_press;
+        float dist = u_brushWidth * a_offetDirection * a_press;
 
         vec2 direction = normalize(a_position1- a_position0);
 
         vec2 canvasPosition = a_position + (dist * vec2(direction.y, -direction.x));
 
-        gl_Position = vec4( (canvasPosition/u_windowSize *2.0 -1.0) * vec2(1, -1), 1, 1 );
+
+        gl_Position = vec4( (canvasPosition/u_windowSize * 2.0 - 1.0) * vec2(1, -1), 1, 1 );
         
     }
    

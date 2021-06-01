@@ -85,75 +85,83 @@ export class Pen {
         this.setBrushWidth(width)
         this.setBrushColor(color.r, color.g, color.b, color.a)
         if (data.length < 2 ) return
-        const pointCount = (data.length -1) *2 *6
+        const pointCount = (data.length -1) *2 *3
         
         const position = new Float32Array( pointCount*2)
         const position0 = new Float32Array(pointCount *2)
         const position1 = new Float32Array(pointCount *2)
         const offetDirection = new Float32Array(pointCount)
         const press = new Float32Array(pointCount)
-       
+
         for(let i = 1; i< data.length; i++) {
             const { position: {x: x0, y: y0}, press: press0 } = data[i-1]
             const { position: {x: x1, y: y1}, press: press1 } = data[i]
             const index = i-1
-            position0[ index * pointCount ] = x0
-            position0[ index*  pointCount + 1 ] = y0
-            position0[ index * pointCount + 2 ] = x0
-            position0[ index*  pointCount + 3 ] = y0
-            position0[ index * pointCount + 4] = x0
-            position0[ index*  pointCount + 5 ] = y0
-            position0[ index * pointCount +6] = x0
-            position0[ index*  pointCount + 7 ] = y0
-            position0[ index * pointCount +8] = x0
-            position0[ index*  pointCount + 9 ] = y0
-            position0[ index * pointCount +10 ] = x0
-            position0[ index*  pointCount + 11 ] = y0
+            const pCount = 6 *2
+            const xCount = 6
+            position0[ index * pCount ] = x0
+            position0[ index*  pCount + 1 ] = y0
+            position0[ index * pCount + 2 ] = x0
+            position0[ index*  pCount + 3 ] = y0
+            position0[ index * pCount + 4] = x0
+            position0[ index*  pCount + 5 ] = y0
+            position0[ index * pCount +6] = x0
+            position0[ index*  pCount + 7 ] = y0
+            position0[ index * pCount +8] = x0
+            position0[ index*  pCount + 9 ] = y0
+            position0[ index * pCount +10 ] = x0
+            position0[ index*  pCount + 11 ] = y0
 
-            position1[ index *  pointCount ] = x1
-            position1[ index *  pointCount + 3 ] = y1
-            position1[ index *  pointCount + 4] = x1
-            position1[ index *  pointCount + 5 ] = y1
-            position1[ index *  pointCount + 6] = x1
-            position1[ index *  pointCount + 7 ] = y1
-            position1[ index *  pointCount + 8] = x1
-            position1[ index *  pointCount + 9 ] = y1
-            position1[ index *  pointCount + 10] = x1
-            position1[ index *  pointCount + 11 ] = y1
+            position1[ index *  pCount ] = x1
+            position1[ index *  pCount + 1] = y1
+            position1[ index *  pCount + 2 ] = x1
+            position1[ index *  pCount + 3 ] = y1
+            position1[ index *  pCount + 4] = x1
+            position1[ index *  pCount + 5 ] = y1
+            position1[ index *  pCount + 6] = x1
+            position1[ index *  pCount + 7 ] = y1
+            position1[ index *  pCount + 8] = x1
+            position1[ index *  pCount + 9 ] = y1
+            position1[ index *  pCount + 10] = x1
+            position1[ index *  pCount + 11 ] = y1
 
-            position[ index *  pointCount ] = x0
-            position[ index *  pointCount + 1 ] = y0
-            position[ index *  pointCount + 2] = x0
-            position[ index *  pointCount + 3 ] = y0
-            position[ index *  pointCount + 4] = x1
-            position[ index *  pointCount + 5 ] = y1
-            position[ index *  pointCount + 6] = x1
-            position[ index *  pointCount + 7 ] = y1
-            position[ index *  pointCount + 8] = x1
-            position[ index *  pointCount + 9 ] = y1
-            position[ index *  pointCount + 10] = x0
-            position[ index *  pointCount + 11 ] = y0
-
-            
-
-            offetDirection[ index *  pointCount ] = 1
-            offetDirection[ index *  pointCount ] = -1
-            offetDirection[ index *  pointCount ] = -1
-            offetDirection[ index *  pointCount ] = -1
-            offetDirection[ index *  pointCount ] = 1
-            offetDirection[ index *  pointCount ] = 1
+            position[ index *  pCount ] = x0
+            position[ index *  pCount + 1 ] = y0
+            position[ index *  pCount + 2] = x0
+            position[ index *  pCount + 3 ] = y0
+            position[ index *  pCount + 4] = x1
+            position[ index *  pCount + 5 ] = y1
+            position[ index *  pCount + 6] = x1
+            position[ index *  pCount + 7 ] = y1
+            position[ index *  pCount + 8] = x1
+            position[ index *  pCount + 9 ] = y1
+            position[ index *  pCount + 10] = x0
+            position[ index *  pCount + 11 ] = y0
 
             
-            press[ index *  pointCount ] = press0
-            press[ index *  pointCount ] = press0
-            press[ index *  pointCount ] = press1
-            press[ index *  pointCount ] = press1
-            press[ index *  pointCount ] = press1
-            press[ index *  pointCount ] = press0
+
+            offetDirection[ index *  xCount ] = 1
+            offetDirection[ index *  xCount +1] = -1
+            offetDirection[ index *  xCount +2] = -1
+            offetDirection[ index *  xCount +3] = 1
+            offetDirection[ index *  xCount +4] = -1
+            offetDirection[ index *  xCount +5] = 1
+
+            
+            press[ index *  xCount ] = press0
+            press[ index *  xCount +1] = press0
+            press[ index *  xCount +2] = press1
+            press[ index *  xCount +3] = press1
+            press[ index *  xCount +4] = press1
+            press[ index *  xCount +5] = press0
 
            
         }
+        console.log(position0);
+        console.log(position1);
         console.log(position);
+        console.log(offetDirection);
+        
         
         this.setAttrData('a_position', position)
         this.gl.enableVertexAttribArray(this.bufferInfo['a_position'].location)
