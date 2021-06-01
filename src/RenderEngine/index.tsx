@@ -104,16 +104,19 @@ export class RenderEngin {
     this.renderer.clear()
     brushELList.forEach( brushEl => this.renderer.renderBrush(brushEl) )
     ctx.drawImage(this.realTimeCanvas, 0, 0)
+    this.renderer.clear()
   }
 
   submitActiveLayer() {
     const activeCtx = this.activeCanvas.getContext('2d')
     activeCtx?.drawImage(this.renderer.canvas, 0, 0)
-    console.log('render to activeLayer')
+    this.renderer.clear()
+    // console.log('render to activeLayer')
  
   }
 
   renderBrsuh(el: BrushEl) {
+    this.renderer.clear()
     this.renderer.renderBrush(el)
   }
 
