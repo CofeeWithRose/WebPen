@@ -157,10 +157,10 @@ export class Pen {
 
            
         }
-        console.log(position0);
-        console.log(position1);
-        console.log(position);
-        console.log(offetDirection);
+        // console.log(position0);
+        // console.log(position1);
+        // console.log(position);
+        // console.log(offetDirection);
         
         
         this.setAttrData('a_position', position)
@@ -188,7 +188,7 @@ export class Pen {
     }
 
     draw(): void {
-        console.log('draw...');
+        // console.log('draw...');
         
         this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count*3)
     }

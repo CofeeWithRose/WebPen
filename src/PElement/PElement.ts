@@ -10,7 +10,7 @@ export abstract class PElement<CHILD extends PElement<any>> {
 
     parent: null|PElement<any> = null
 
-    private children: CHILD[] = []
+    protected children: CHILD[] = []
 
     addChild(child: CHILD): CHILD {
       child.parent = this

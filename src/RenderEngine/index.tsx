@@ -23,6 +23,8 @@ export class RenderEngin {
 
   private activeCanvas: HTMLCanvasElement = document.createElement('canvas')
 
+  readonly cover: HTMLDivElement = document.createElement('div')
+
   protected renderer: Renderer
 
   constructor(view: HTMLElement, opt: RenderEnginOpt) {
@@ -38,12 +40,31 @@ export class RenderEngin {
     this.activeCanvas.width = opt.width
     this.activeCanvas.height = opt.height
 
+    this.cover.style.width=`${opt.width}px`
+    this.cover.style.height=`${opt.height}px`
+    this.cover.style.background= '#808080'
+    this.cover.style.opacity= '0.1'
+
     this.scroller.appendChild(this.bottomCanvas)
     this.scroller.appendChild(this.activeCanvas)
     this.scroller.appendChild(this.topCanvas)
+    this.scroller.appendChild(this.cover)
+
+    this.setLayoutStyle(this.bottomCanvas)
+    this.setLayoutStyle(this.activeCanvas)
+    this.setLayoutStyle(this.topCanvas)
+    this.setLayoutStyle(this.cover)
+   
+
     view.appendChild(this.scroller)
 
     this.renderer = new Renderer(opt.width, opt.height)
+  }
+
+  private setLayoutStyle(el:HTMLElement) {
+    el.style.position = 'absolute'
+    el.style.top= '0'
+    el.style.left = '0'
   }
 
   async load(root: PannelEl): Promise<void> {

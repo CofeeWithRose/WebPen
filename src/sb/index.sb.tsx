@@ -24,7 +24,8 @@ export function Pannel() {
       brushEl.state = { width: 100 , color: {r: 0,g: 1, b: 0, a: 1}}
       brushEl.data = [ 
         { position: {x: 0, y: 0 }, press: 1 } ,
-        { position: {x: 800, y: 0 }, press: 1 } ,
+        { position: {x: 10, y: 0 }, press: 1 } ,
+        { position: {x: 0, y: 10 }, press: 1 } ,
       ]
       pannel.load(root)
 
