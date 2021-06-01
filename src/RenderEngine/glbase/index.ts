@@ -14,9 +14,9 @@ export function createShader(gl: WebGLRenderingContext, type: GLenum, source: st
     if (success) {
       return shader;
     } else {
+      gl.deleteShader(shader);
       throw new Error(`[Compile Shader Failed] ${gl.getShaderInfoLog(shader)}`);
     }
-    gl.deleteShader(shader);
 }
 
 export function createProgram(
@@ -32,8 +32,9 @@ export function createProgram(
     var success = gl.getProgramParameter(program, gl.LINK_STATUS);
     if (success) {
       return program;
+    } else {
+      gl.deleteProgram(program);
+      throw new Error(`Fail create program: ${gl.getProgramInfoLog(program)}`)
     }
    
-    console.log(gl.getProgramInfoLog(program));
-    gl.deleteProgram(program);
   }

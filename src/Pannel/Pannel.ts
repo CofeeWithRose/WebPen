@@ -2,6 +2,7 @@ import { defaultState } from "../Brush/Pen";
 import { BrushConstructor, BrushState, BRUSH_TYPES } from "../Brush/types/PenInfer";
 import { Input } from "../Input";
 import { BrushEl } from "../PElement/BrushEl";
+import { LayerEl } from "../PElement/LayerEl";
 import { PannelEl } from "../PElement/PannelEl";
 import { RenderEngin } from "../RenderEngine";
 import { PannelInfer, PannelOptions } from "./types/PannelInfer";
@@ -27,8 +28,14 @@ export class Pannel implements PannelInfer {
     }
 
     async load(pannelEl?: PannelEl): Promise<void> {
-      this.pannelEl = pannelEl|| new PannelEl()
+      this.pannelEl = pannelEl? pannelEl : this.createEmpty()
       this.renderEngin.load(this.pannelEl)
+    }
+
+    private createEmpty() {
+      const root = new PannelEl()
+      root.addChild(new LayerEl())
+      return root
     }
 
     private onInputBegin = (brushEl: BrushEl) => {

@@ -19,7 +19,6 @@ export function Pannel() {
       // pannel.getWork()
       const root = new PannelEl()
       const layyer = root.addChild(new LayerEl())
-      root.activeLayerId = layyer.id
       const brushEl = layyer.addChild(new BrushEl())
       brushEl.state = { width: 100 , color: {r: 0,g: 1, b: 0, a: 1}}
       brushEl.data = [ 
@@ -27,7 +26,7 @@ export function Pannel() {
         { position: {x: 10, y: 0 }, press: 1 } ,
         { position: {x: 0, y: 10 }, press: 1 } ,
       ]
-      pannel.load(root)
+      pannel.load()
 
     }, [])
 
