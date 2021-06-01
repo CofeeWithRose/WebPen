@@ -111,13 +111,13 @@ export class RenderEngin {
   }
 
   renderBrsuh(el: BrushEl) {
-    console.time('rb')
+    // console.time('rb')
     const ctx = this.activeCanvas.getContext('2d')
     ctx?.clearRect(0, 0, this.activeCanvas.width, this.activeCanvas.height)
     this.renderer.clear()
     this.renderer.renderBrush(el)
     ctx?.drawImage(this.renderer.canvas, 0, 0)
-    console.timeEnd('rb')
+    // console.timeEnd('rb')
   }
 
 }
