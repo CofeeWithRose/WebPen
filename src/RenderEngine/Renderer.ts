@@ -1,6 +1,6 @@
 import { BrushEl } from "../PElement/BrushEl"
 import { createProgram, createShader } from "./glbase"
-import { FRAGMENT_SHADER, VERTEXT_SHADER } from "./BrushRender/Pen/shader"
+import { LINE_FRAGMENT_SHADER, LINE_VERTEXT_SHADER } from "./BrushRender/Pen/shaders/line"
 import { Pen } from "./BrushRender/Pen"
 
 export class Renderer {
@@ -25,9 +25,8 @@ export class Renderer {
 
     renderBrush(brushEl: BrushEl): void {
         const { brushType, state, data } = brushEl
-        this.pen.active()
-        this.pen.setInfo(state, data)
-        this.pen.draw()
+        // TODO 根据brushType使用不同的pen.
+        this.pen.draw(state, data)
     }
 
     clear() {

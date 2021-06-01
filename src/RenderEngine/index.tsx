@@ -29,8 +29,10 @@ export class RenderEngin {
 
   constructor(view: HTMLElement, opt: RenderEnginOpt) {
     opt= { ...defaultOpt, ...opt }
-    this.scroller.style.width = `${opt.width}px`
-    this.scroller.style.height = `${opt.height}px`
+    const width = opt.width/window.devicePixelRatio
+    const height = opt.height/window.devicePixelRatio
+    this.scroller.style.width = `${width}px`
+    this.scroller.style.height = `${height}px`
     this.topCanvas.width = opt.width
     this.topCanvas.height = opt.height
     
@@ -40,8 +42,8 @@ export class RenderEngin {
     this.activeCanvas.width = opt.width
     this.activeCanvas.height = opt.height
 
-    this.cover.style.width=`${opt.width}px`
-    this.cover.style.height=`${opt.height}px`
+    this.cover.style.width=`${width}px`
+    this.cover.style.height=`${height}px`
     this.cover.style.background= '#808080'
     this.cover.style.opacity= '0.1'
     this.cover.style.touchAction = 'none'
@@ -51,10 +53,10 @@ export class RenderEngin {
     this.scroller.appendChild(this.topCanvas)
     this.scroller.appendChild(this.cover)
 
-    this.setLayoutStyle(this.bottomCanvas)
-    this.setLayoutStyle(this.activeCanvas)
-    this.setLayoutStyle(this.topCanvas)
-    this.setLayoutStyle(this.cover)
+    this.setLayoutStyle(this.bottomCanvas, width, height)
+    this.setLayoutStyle(this.activeCanvas, width, height)
+    this.setLayoutStyle(this.topCanvas, width, height)
+    this.setLayoutStyle(this.cover, width, height)
    
 
     view.appendChild(this.scroller)
@@ -62,10 +64,12 @@ export class RenderEngin {
     this.renderer = new Renderer(opt.width, opt.height)
   }
 
-  private setLayoutStyle(el:HTMLElement) {
+  private setLayoutStyle(el:HTMLElement, w: number, h: number) {
     el.style.position = 'absolute'
     el.style.top= '0'
     el.style.left = '0'
+    el.style.width = `${w}px`
+    el.style.height = `${h}px`
   }
 
   async load(root: PannelEl): Promise<void> {

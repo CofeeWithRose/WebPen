@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import { createPannel, PannelInfer, PannelEl, LayerEl, BrushEl } from 'webpen';
 import VConsole from 'vconsole';
+import { Color } from '../Color';
 
 const vConsole = new VConsole();
 
@@ -20,11 +21,18 @@ export function Pannel() {
     },[])
     useEffect(() => {
       if(!conainerRef.current) return
-      const pannel = pannelRef.current = createPannel(conainerRef.current, {width: window.innerWidth, height: window.innerHeight})
+      const pannel = pannelRef.current = createPannel(
+        conainerRef.current, 
+        {
+          width: window.innerWidth * window.devicePixelRatio, 
+          height: window.innerHeight * window.devicePixelRatio,
+        }
+      )
       
       pannel.load()
 
-      pannel.brushState.width = 10
+      pannel.brushState.width = 20 *window.devicePixelRatio
+      pannel.brushState.color = new Color(125, 125,125)
 
     }, [])
 

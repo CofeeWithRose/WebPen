@@ -4,7 +4,7 @@ import { EL_TAGS, PElement } from "./PElement";
 
 export class BrushEl extends PElement<never> {
 
-    readonly tag= EL_TAGS.BRUSH
+    readonly tag = EL_TAGS.BRUSH
 
     brushType: BRUSH_TYPES = BRUSH_TYPES.UNKNOW
 

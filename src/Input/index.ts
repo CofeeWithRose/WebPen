@@ -30,6 +30,8 @@ export class Input {
         this.curBrush = new BrushEl()
         this.curBrush.brushType = BRUSH_TYPES.PEN // TODO
         this.curBrush.state.width = this.state.width
+        this.curBrush.state.color = this.state.color
+        
         // this.curBrush.state.
         this.loadBrushData(events)
         this.onBegin(this.curBrush)
@@ -40,7 +42,7 @@ export class Input {
         const data = this.curBrush.data
         e.forEach(e => {
             data.push({
-                position: {x: e.clientX, y: e.clientY},
+                position: {x: e.clientX * this.dpr, y: e.clientY * this.dpr },
                 press: e.pressure
             })
         })
