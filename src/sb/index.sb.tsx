@@ -16,9 +16,12 @@ export function Pannel() {
     const conainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+      document.body.style.overflow='hidden'
+    },[])
+    useEffect(() => {
       if(!conainerRef.current) return
-      const pannel = pannelRef.current = createPannel(conainerRef.current)
-
+      const pannel = pannelRef.current = createPannel(conainerRef.current, {width: 300, height: 300})
+      
       pannel.load()
 
       pannel.brushState.width = 10

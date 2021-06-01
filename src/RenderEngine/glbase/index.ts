@@ -14,7 +14,6 @@ export function createShader(gl: WebGLRenderingContext, type: GLenum, source: st
     if (success) {
       return shader;
     } else {
-      gl.deleteShader(shader);
       throw new Error(`[Compile Shader Failed] ${gl.getShaderInfoLog(shader)}`);
     }
 }
@@ -23,7 +22,7 @@ export function createProgram(
     gl: WebGLRenderingContext, 
     vertexShader: WebGLShader, 
     fragmentShader: WebGLShader
-) {
+): WebGLProgram {
     const program = gl.createProgram();
     if(!program) throw new Error('create program faild')
     gl.attachShader(program, vertexShader);
@@ -33,9 +32,6 @@ export function createProgram(
     if (success) {
       return program;
     } else {
-      gl.deleteProgram(program);
       throw new Error(`Fail link program: ${gl.getProgramInfoLog(program)}`)
     }
-    return program;
-   
   }

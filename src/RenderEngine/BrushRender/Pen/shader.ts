@@ -43,7 +43,7 @@ precision highp float;
 `
 
 export const FRAGMENT_SHADER = `
-    precision mediump float;
+    precision highp float;
 
     uniform vec4 u_brushColor;
 

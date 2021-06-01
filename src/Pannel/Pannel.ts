@@ -25,6 +25,7 @@ export class Pannel implements PannelInfer {
       this.input = new Input(this.renderEngin.cover, this.brushState)
       this.input.onBegin = this.onInputBegin
       this.input.onUpdate = this.onInputUpdate
+      this.input.onEnd = this.onInputEnd
     }
 
     async load(pannelEl?: PannelEl): Promise<void> {
@@ -47,6 +48,10 @@ export class Pannel implements PannelInfer {
 
     private onInputUpdate = () => {
       this.renderEngin.renderTree()
+    }
+
+    private onInputEnd = () => {
+      // console.log(JSON.stringify(this.pannelEl));
     }
 
 

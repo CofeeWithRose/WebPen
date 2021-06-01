@@ -44,6 +44,7 @@ export class RenderEngin {
     this.cover.style.height=`${opt.height}px`
     this.cover.style.background= '#808080'
     this.cover.style.opacity= '0.1'
+    this.cover.style.touchAction = 'none'
 
     this.scroller.appendChild(this.bottomCanvas)
     this.scroller.appendChild(this.activeCanvas)
@@ -74,6 +75,7 @@ export class RenderEngin {
 
   async renderTree(): Promise<void> {
     if (!this.root) return
+    console.time('r')
     const activeLayerId = this.root.activeLayerId
     const layers = this.root.getChildren()
     let targetCanvas = this.topCanvas
@@ -84,10 +86,8 @@ export class RenderEngin {
         return
       } 
       this.renderBrushes( targetCanvas, layerEl.getChildren() )
-      
-      
     })
-
+    console.timeEnd('r')
   }
 
   private async renderBrushes(

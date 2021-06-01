@@ -5,10 +5,12 @@ export class Input {
 
     private state:BrushState
 
+    private dpr = window.devicePixelRatio
+
     constructor( private cover: HTMLElement, state:BrushState) {
-        cover.addEventListener('pointerdown', this.onPointStart)
-        cover.addEventListener('pointermove', this.onPointMove)
-        cover.addEventListener('pointerup', this.onPointEnd)
+        cover.addEventListener('pointerdown', this.onPointStart, {passive: false})
+        cover.addEventListener('pointermove', this.onPointMove, {passive: false})
+        cover.addEventListener('pointerup', this.onPointEnd, {passive: false})
         this.state = state
     }
 
@@ -21,6 +23,9 @@ export class Input {
     public onEnd() {}
 
     private onPointStart= (e:PointerEvent) => {
+        e.preventDefault()
+        // if (e.pointerType !== 'pen') return
+        this.dpr = window.devicePixelRatio
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
         this.curBrush = new BrushEl()
         this.curBrush.brushType = BRUSH_TYPES.PEN // TODO
@@ -35,7 +40,7 @@ export class Input {
         const data = this.curBrush.data
         e.forEach(e => {
             data.push({
-                position: {x: e.offsetX, y: e.offsetY},
+                position: {x: e.clientX, y: e.clientY},
                 press: e.pressure
             })
         })
@@ -43,13 +48,20 @@ export class Input {
 
 
     private onPointMove = (e:PointerEvent) => {
+        e.preventDefault()
+        // if (e.pointerType !== 'pen') return
+        if (!this.curBrush) return
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
         this.loadBrushData(events)
         this.onUpdate()
     }
 
     private onPointEnd = (e:PointerEvent) => {
-        console.log('end...');
+      // if (e.pointerType !== 'pen') return
+        console.log('end..', Date.now() * 0.001);
+        this.curBrush = null
+        this.onEnd()
+       
         
         // const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
     }

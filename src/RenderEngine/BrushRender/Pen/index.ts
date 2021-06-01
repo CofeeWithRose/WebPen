@@ -187,7 +187,6 @@ export class Pen {
 
     draw(): void {
         // console.log('draw...');
-        
         this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count*3)
     }
 

@@ -8,12 +8,11 @@ export abstract class PElement<CHILD extends PElement<any>> {
 
     offset = { x: 0, y: 0 }
 
-    parent: null|PElement<any> = null
+    // parent: null|PElement<any> = null
 
     protected children: CHILD[] = []
 
     addChild(child: CHILD): CHILD {
-      child.parent = this
       this.children.push(child)
       return child
     }
