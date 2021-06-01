@@ -20,7 +20,7 @@ export function Pannel() {
     },[])
     useEffect(() => {
       if(!conainerRef.current) return
-      const pannel = pannelRef.current = createPannel(conainerRef.current, {width: 300, height: 300})
+      const pannel = pannelRef.current = createPannel(conainerRef.current, {width: window.innerWidth, height: window.innerHeight})
       
       pannel.load()
 
