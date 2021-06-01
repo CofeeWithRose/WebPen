@@ -5,6 +5,7 @@ import { LINE_FRAGMENT_SHADER, LINE_VERTEXT_SHADER } from "./shaders/line"
 import { ROUND_FRAGMENT_SHADER, ROUND_VERTEXT_SHADER } from "./shaders/round";
 
 type BufferInfo = { [key: string]: { location: GLint, buffer: WebGLBuffer } }
+
 export class Pen {
 
     private programs: { lineProgram: WebGLProgram, dotProgram: WebGLProgram};
@@ -79,8 +80,6 @@ export class Pen {
         const location = this.gl.getAttribLocation(program, name);
         const buffer = this.gl.createBuffer();
         if(!buffer) throw new Error('Fail create buffer')
-        console.log(location);
-        
         bufferInfo[name] = { buffer, location }
     }
 
@@ -106,6 +105,7 @@ export class Pen {
 
 
     private drawLines(state: BrushState, data: BrushTrackData[]) {
+        // data=[ { position: {x: 100, y: 100}, press: 1}, { position: {x: 400, y: 100}, press: 1} ]
         const { width, color } = state
         this.gl.useProgram(this.programs.lineProgram)
         this.setWindowSize(this.programs.lineProgram, this.gl.canvas.width, this.gl.canvas.height)
@@ -213,13 +213,14 @@ export class Pen {
 
 
     private drawDot(state: BrushState, data: BrushTrackData[]) {
-      // data=[ { position: {x: 100, y: 100}, press: 1}, { position: {x: 400, y: 100}, press: 1} ]
+    //   data=[ { position: {x: 100, y: 100}, press: 1}, { position: {x: 400, y: 100}, press: 1} ]
       if(!data.length) return
       const { width, color } = state
       this.gl.useProgram(this.programs.dotProgram)
       this.setWindowSize(this.programs.dotProgram, this.gl.canvas.width, this.gl.canvas.height)
       this.setBrushWidth(this.programs.dotProgram, width)
       this.setBrushColor(this.programs.dotProgram, color.r, color.g, color.b, color.a)
+      this.gl.enable(this.gl.BLEND)
       
       const pointCount = data.length *2 *3
 
@@ -288,9 +289,11 @@ export class Pen {
 
     draw(state: BrushState, data: BrushTrackData[]): void {
         // console.log('draw...');
+        // console.time('dd')
         this.drawLines(state, data)
-        // this.gl.drawArrays( this.gl.TRIANGLES, 0,  this.count*3)
         this.drawDot(state, data)
+        
+        // console.timeEnd('dd')
     }
 
 

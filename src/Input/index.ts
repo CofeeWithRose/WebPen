@@ -43,19 +43,21 @@ export class Input {
         e.forEach(e => {
             data.push({
                 position: {x: e.clientX * this.dpr, y: e.clientY * this.dpr },
-                press: e.pressure
+                press: e.pressure||1
             })
         })
     }
 
 
     private onPointMove = (e:PointerEvent) => {
+        console.time('mm');
         e.preventDefault()
         // if (e.pointerType !== 'pen') return
         if (!this.curBrush) return
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
         this.loadBrushData(events)
         this.onUpdate(this.curBrush)
+        console.timeEnd('mm');
     }
 
     private onPointEnd = (e:PointerEvent) => {

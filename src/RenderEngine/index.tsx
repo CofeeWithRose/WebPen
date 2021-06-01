@@ -19,9 +19,11 @@ export class RenderEngin {
 
   private topCanvas: HTMLCanvasElement = document.createElement('canvas')
 
-  private bottomCanvas: HTMLCanvasElement = document.createElement('canvas')
+  private realTimeCanvas: HTMLCanvasElement = document.createElement('canvas')
 
   private activeCanvas: HTMLCanvasElement = document.createElement('canvas')
+
+  private bottomCanvas: HTMLCanvasElement = document.createElement('canvas')
 
   readonly cover: HTMLDivElement = document.createElement('div')
 
@@ -33,14 +35,11 @@ export class RenderEngin {
     const height = opt.height/window.devicePixelRatio
     this.scroller.style.width = `${width}px`
     this.scroller.style.height = `${height}px`
-    this.topCanvas.width = opt.width
-    this.topCanvas.height = opt.height
-    
-    this.bottomCanvas.width = opt.width
-    this.bottomCanvas.height = opt.height
 
-    this.activeCanvas.width = opt.width
-    this.activeCanvas.height = opt.height
+    this.initCanvas(this.bottomCanvas, opt, 'bottomCanvas')
+    this.initCanvas(this.activeCanvas, opt, 'active')
+    this.initCanvas(this.realTimeCanvas, opt, 'realTime')
+    this.initCanvas(this.topCanvas, opt, 'top')
 
     this.cover.style.width=`${width}px`
     this.cover.style.height=`${height}px`
@@ -48,20 +47,24 @@ export class RenderEngin {
     this.cover.style.opacity= '0.1'
     this.cover.style.touchAction = 'none'
 
-    this.scroller.appendChild(this.bottomCanvas)
-    this.scroller.appendChild(this.activeCanvas)
-    this.scroller.appendChild(this.topCanvas)
     this.scroller.appendChild(this.cover)
-
-    this.setLayoutStyle(this.bottomCanvas, width, height)
-    this.setLayoutStyle(this.activeCanvas, width, height)
-    this.setLayoutStyle(this.topCanvas, width, height)
     this.setLayoutStyle(this.cover, width, height)
    
 
     view.appendChild(this.scroller)
 
-    this.renderer = new Renderer(opt.width, opt.height)
+    this.renderer = new Renderer(this.realTimeCanvas)
+
+  }
+
+  private initCanvas(canvas:HTMLCanvasElement, opt: RenderEnginOpt, name: string) {
+    const width = opt.width/window.devicePixelRatio
+    const height = opt.height/window.devicePixelRatio
+    canvas.width = opt.width
+    canvas.height = opt.height
+    canvas.setAttribute(name, 'qq')
+    this.setLayoutStyle(canvas, width, height)
+    this.scroller.appendChild(canvas)
   }
 
   private setLayoutStyle(el:HTMLElement, w: number, h: number) {
@@ -100,24 +103,18 @@ export class RenderEngin {
     if (!ctx) return
     this.renderer.clear()
     brushELList.forEach( brushEl => this.renderer.renderBrush(brushEl) )
-    ctx.drawImage(this.renderer.canvas, 0, 0)
+    ctx.drawImage(this.realTimeCanvas, 0, 0)
   }
 
   submitActiveLayer() {
-    const bottomCtx = this.bottomCanvas.getContext('2d')
-    bottomCtx?.drawImage(this.activeCanvas, 0, 0)
     const activeCtx = this.activeCanvas.getContext('2d')
-    activeCtx?.clearRect(0, 0, this.activeCanvas.width, this.activeCanvas.height)
+    activeCtx?.drawImage(this.renderer.canvas, 0, 0)
+    console.log('render to activeLayer')
+ 
   }
 
   renderBrsuh(el: BrushEl) {
-    // console.time('rb')
-    const ctx = this.activeCanvas.getContext('2d')
-    ctx?.clearRect(0, 0, this.activeCanvas.width, this.activeCanvas.height)
-    this.renderer.clear()
     this.renderer.renderBrush(el)
-    ctx?.drawImage(this.renderer.canvas, 0, 0)
-    // console.timeEnd('rb')
   }
 
 }

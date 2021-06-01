@@ -17,7 +17,7 @@ export function Pannel() {
     const conainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-      document.body.style.overflow='hidden'
+      // document.body.style.overflow='hidden'
     },[])
     useEffect(() => {
       if(!conainerRef.current) return
@@ -32,7 +32,7 @@ export function Pannel() {
       pannel.load()
 
       pannel.brushState.width = 20 *window.devicePixelRatio
-      pannel.brushState.color = new Color(125, 125,125)
+      pannel.brushState.color = new Color(125, 125,125, 0.6)
 
     }, [])
 
