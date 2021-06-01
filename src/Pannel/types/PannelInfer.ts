@@ -7,7 +7,7 @@ import { PannelEl } from "../../PElement/PannelEl";
  */
 export  interface PannelInfer {
 
-    brushState: BrushState
+    readonly brushState: BrushState
     
     brushType: string
 

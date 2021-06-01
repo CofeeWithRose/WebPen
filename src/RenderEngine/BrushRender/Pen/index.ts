@@ -16,9 +16,7 @@ export class Pen {
     constructor(gl: WebGLRenderingContext) {
         const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER)
         const vertexShader = createShader(gl, gl.VERTEX_SHADER, VERTEXT_SHADER)
-        const program = createProgram(gl, vertexShader, fragmentShader)
-        if (!program) throw new Error('fail create program')
-        this.program = program
+        this.program = createProgram(gl, vertexShader, fragmentShader)
         this.gl = gl
          // gl窗口大小.
         // uniform vec2 u_windowSize;

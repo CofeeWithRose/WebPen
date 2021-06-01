@@ -24,17 +24,18 @@ export function createProgram(
     vertexShader: WebGLShader, 
     fragmentShader: WebGLShader
 ) {
-    var program = gl.createProgram();
+    const program = gl.createProgram();
     if(!program) throw new Error('create program faild')
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
-    var success = gl.getProgramParameter(program, gl.LINK_STATUS);
+    const success = gl.getProgramParameter(program, gl.LINK_STATUS);
     if (success) {
       return program;
     } else {
       gl.deleteProgram(program);
-      throw new Error(`Fail create program: ${gl.getProgramInfoLog(program)}`)
+      throw new Error(`Fail link program: ${gl.getProgramInfoLog(program)}`)
     }
+    return program;
    
   }

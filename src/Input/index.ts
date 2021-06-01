@@ -1,12 +1,15 @@
-import { BRUSH_TYPES } from "../Brush/types/PenInfer"
+import { BrushState, BRUSH_TYPES } from "../Brush/types/PenInfer"
 import { BrushEl } from "../PElement/BrushEl"
 
 export class Input {
 
-    constructor( private cover: HTMLElement) {
+    private state:BrushState
+
+    constructor( private cover: HTMLElement, state:BrushState) {
         cover.addEventListener('pointerdown', this.onPointStart)
         cover.addEventListener('pointermove', this.onPointMove)
         cover.addEventListener('pointerup', this.onPointEnd)
+        this.state = state
     }
 
     private curBrush: BrushEl|null = null
@@ -21,6 +24,8 @@ export class Input {
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
         this.curBrush = new BrushEl()
         this.curBrush.brushType = BRUSH_TYPES.PEN // TODO
+        this.curBrush.state.width = this.state.width
+        // this.curBrush.state.
         this.loadBrushData(events)
         this.onBegin(this.curBrush)
     }

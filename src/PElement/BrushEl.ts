@@ -8,7 +8,7 @@ export class BrushEl extends PElement<never> {
 
     brushType: BRUSH_TYPES = BRUSH_TYPES.UNKNOW
 
-    state: BrushState = { width:10, color: new Color() }
+    readonly  state: BrushState = { width:10, color: new Color() }
 
     data: BrushTrackData[]= []
 

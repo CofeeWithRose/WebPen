@@ -9,11 +9,11 @@ import { PannelInfer, PannelOptions } from "./types/PannelInfer";
 
 export class Pannel implements PannelInfer {
 
-    brushState: BrushState = defaultState;
+    readonly  brushState: BrushState = defaultState;
 
     brushType: BRUSH_TYPES|string = BRUSH_TYPES.PEN;
 
-    pannelEl: PannelEl|null = null
+    protected pannelEl: PannelEl|null = null
 
     renderEngin: RenderEngin
 
@@ -22,7 +22,7 @@ export class Pannel implements PannelInfer {
     constructor(container:HTMLElement, opt?: PannelOptions) {
       opt = { width: 800, height: 800, ...opt}
       this.renderEngin = new RenderEngin(container, opt)
-      this.input = new Input(this.renderEngin.cover)
+      this.input = new Input(this.renderEngin.cover, this.brushState)
       this.input.onBegin = this.onInputBegin
       this.input.onUpdate = this.onInputUpdate
     }
