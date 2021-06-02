@@ -33,7 +33,6 @@ export class Pannel implements PannelInfer {
       this.input.onUpdate = this.onInputUpdate
       this.input.onEnd = this.onInputEnd
       this.recorder = new Recorder()
-
     }
 
     redo() {
@@ -85,7 +84,6 @@ export class Pannel implements PannelInfer {
           brushEl
         } 
       })
-      // console.log(JSON.stringify(this.pannelEl));
     }
 
 

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react'
-import { createPannel, PannelInfer, PannelEl, LayerEl, BrushEl } from 'webpen';
+import { createPannel, PannelInfer } from 'webpen';
 import VConsole from 'vconsole';
 import { Color } from '../Color';
 
@@ -58,7 +58,7 @@ export function Pannel() {
       pannel?.redo()
     }
 
-    const [ color, setColor ] = useState('#0000')
+    const [ color, setColor ] = useState('#000000')
 
     const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const pannel = pannelRef.current
@@ -90,13 +90,25 @@ export function Pannel() {
       )
     }
 
+    const [brushWidth, setBrushWidth] = useState(20)
+
+    const handleBrushWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const pannel = pannelRef.current
+      if ( !pannel) return 
+      const width =  Number(e.target.value)
+      setBrushWidth(width)
+      pannel.brushState.width = width
+    }
+
+
     return <div>
       <div> 
         <button onClick={clear}>clear</button> 
         <button onClick={undo}>undo</button>
         <button onClick={redo}>redo</button>
         <input type="color" onChange={onColorChange} value={color}/>
-        <input type="range" min={0} max={1} onChange={handleOptChange} step={0.1} value={opacity} />
+        opacity <input type="range" min={0} max={1} onChange={handleOptChange} step={0.1} value={opacity} />
+        brush width <input type="range" min={20} max={80} onChange={handleBrushWidth} step={0.1} value={brushWidth} />
       </div>
       <div style={{position: 'relative'}} ref={conainerRef}/>
     </div>

@@ -128,6 +128,7 @@ export class RenderEngin {
 
   submitActiveLayer() {
     const activeCtx = this.activeCanvas.getContext('2d')
+    if ( !activeCtx) return
     activeCtx?.drawImage(this.renderer.canvas, 0, 0)
     this.renderer.clear()
     // console.log('render to activeLayer')
