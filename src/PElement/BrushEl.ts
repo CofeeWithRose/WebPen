@@ -12,4 +12,6 @@ export class BrushEl extends PElement<never> {
 
     data: BrushTrackData[]= []
 
+    nextData: BrushTrackData[]= []
+
 }

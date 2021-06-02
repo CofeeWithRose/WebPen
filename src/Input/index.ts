@@ -27,17 +27,18 @@ export class Input {
         // if (e.pointerType !== 'pen') return
         this.dpr = window.devicePixelRatio
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
+        const nextEvents:PointerEvent[] = e.getPredictedEvents? e.getPredictedEvents(): []
         this.curBrush = new BrushEl()
         this.curBrush.brushType = BRUSH_TYPES.PEN // TODO
         this.curBrush.state.width = this.state.width
         this.curBrush.state.color = this.state.color
         
         // this.curBrush.state.
-        this.loadBrushData(events)
+        this.loadBrushData(events, nextEvents)
         this.onBegin(this.curBrush)
     }
 
-    private loadBrushData = (e: PointerEvent[]) => {
+    private loadBrushData = (e: PointerEvent[], nextE: PointerEvent[]) => {
         if (!this.curBrush) return
         const data = this.curBrush.data
         e.forEach(e => {
@@ -46,6 +47,10 @@ export class Input {
                 press: e.pressure||1
             })
         })
+        this.curBrush.nextData = nextE.map ( e =>  ({
+            position: {x: e.clientX * this.dpr, y: e.clientY * this.dpr },
+            press: e.pressure||1
+        }))
     }
 
 
@@ -54,15 +59,18 @@ export class Input {
         e.preventDefault()
         // if (e.pointerType !== 'pen') return
         if (!this.curBrush) return
-        const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
-        this.loadBrushData(events)
+        const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : []
+        const nextEvents:PointerEvent[] = e.getPredictedEvents? e.getPredictedEvents(): []
+        events.push(e)
+        this.loadBrushData(events, nextEvents)
         this.onUpdate(this.curBrush)
         console.timeEnd('mm');
     }
 
     private onPointEnd = (e:PointerEvent) => {
       // if (e.pointerType !== 'pen') return
-        console.log('end..', Date.now() * 0.001);
+        // console.log('end..', Date.now() * 0.001);
+        if(this.curBrush) this.curBrush.nextData = []
         this.curBrush = null
         this.onEnd()
        

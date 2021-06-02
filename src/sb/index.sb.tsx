@@ -32,7 +32,7 @@ export function Pannel() {
       pannel.load()
 
       pannel.brushState.width = 20 *window.devicePixelRatio
-      pannel.brushState.color = new Color(125, 125,125, 0.6)
+      pannel.brushState.color = new Color(0, 0,0, 0.2)
 
     }, [])
 

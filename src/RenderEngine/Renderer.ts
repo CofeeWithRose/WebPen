@@ -25,9 +25,9 @@ export class Renderer {
 
 
     renderBrush(brushEl: BrushEl): void {
-        const { brushType, state, data } = brushEl
+        const { brushType, state, data, nextData } = brushEl
         // TODO 根据brushType使用不同的pen.
-        this.pen.draw(state, data)
+        this.pen.draw(state, [...data, ...nextData])
     }
 
     clear() {
