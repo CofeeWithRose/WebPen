@@ -22,9 +22,8 @@ export function Pannel() {
         if(pannel) {
           localStorage.setItem('xxx', await pannel.toJson())
           console.log('save..');
-          
         }
-      }, 800)
+      }, 5000)
     },[])
     useEffect(() => {
       if(!conainerRef.current) return

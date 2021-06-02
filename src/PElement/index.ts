@@ -25,13 +25,34 @@ export function parseEl(pannelElStr?: string): PannelEl {
     [EL_TAGS.BRUSH]:BrushEl,
   }
   const vPannelEl: PannelEl = JSON.parse(pannelElStr)
-  setProptype(vPannelEl, elMap)
-  console.log('vPannelEl', vPannelEl);
-  
-  return vPannelEl
+ 
+  return copy(vPannelEl, elMap)
 }
 
-function setProptype(vEl: PElement<PElement<any>>, elMap: EL_MAP) {
-  Object.setPrototypeOf(vEl,  elMap[vEl.tag])
-  vEl.getChildren().forEach( el => setProptype(el, elMap))
+function copy<T extends PElement<any>>(vEl: T, elMap: EL_MAP): T {
+
+    const el = new elMap[vEl.tag]() as T
+    for(let key in vEl) {
+      if (key !== 'children') {
+        el[key] = vEl[key]
+      }
+    }
+    vEl.children.forEach( vEl => {
+      el.addChild( copy(vEl, elMap))
+    })
+    return el
+
 }
+
+// function buildEl(current: PElement<PElement<any>>, vEl: PElement<PElement<any>>, elMap: EL_MAP, ) {
+  // for(let key in vEl) {
+  //   current[key] = vEl[key]
+  // }
+//   current.children = []
+
+//   vEl.children.forEach( vEl => {
+//     const el = new elMap[vEl.tag]()
+//     buildEl(el, vEl, elMap)
+//     current.addChild(el)
+//   })
+// }

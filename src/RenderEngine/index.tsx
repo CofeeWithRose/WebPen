@@ -101,9 +101,12 @@ export class RenderEngin {
   ):  Promise<void> {
     const ctx = tagetCanvas.getContext('2d')
     if (!ctx) return
-    this.renderer.clear()
-    brushELList.forEach( brushEl => this.renderer.renderBrush(brushEl) )
-    ctx.drawImage(this.realTimeCanvas, 0, 0)
+    
+    brushELList.forEach( brushEl => {
+      this.renderer.clear()
+      this.renderer.renderBrush(brushEl) 
+      ctx.drawImage(this.realTimeCanvas, 0, 0)
+    })
     this.renderer.clear()
   }
 

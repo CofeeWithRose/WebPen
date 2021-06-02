@@ -33,7 +33,6 @@ export class Input {
         this.curBrush.state.width = this.state.width
         this.curBrush.state.color = this.state.color
         
-        // this.curBrush.state.
         this.loadBrushData(events, nextEvents)
         this.onBegin(this.curBrush)
     }

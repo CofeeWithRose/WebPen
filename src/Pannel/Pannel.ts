@@ -40,6 +40,8 @@ export class Pannel implements PannelInfer {
     async load(pannelEl?: PannelEl|string|null): Promise<void> {
      
       if ( typeof pannelEl === 'string' ) {
+        
+        
         pannelEl = await this.parse(pannelEl)
       }
       this.pannelEl = pannelEl? pannelEl : createEmpty()
