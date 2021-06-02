@@ -25,6 +25,10 @@ export  interface PannelInfer {
      */
     load(pannelEl?: PannelEl): Promise<void>
 
+    toJson(): Promise<string>
+
+    parse(json: string): Promise<PannelEl>
+
 }
 
 

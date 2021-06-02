@@ -36,6 +36,10 @@ export enum EL_TAGS {
 
     BRUSH,
 
-    UNKNOW,
+    // UNKNOW,
 
 }
+
+export interface ElConstructor {
+  new () : PElement<any>
+} 
