@@ -35,3 +35,17 @@ export function createProgram(
       throw new Error(`Fail link program: ${gl.getProgramInfoLog(program)}`)
     }
   }
+
+export type BufferInfo = { [key: string]: { location: GLint, buffer: WebGLBuffer } }
+
+export function createAttrBuffer(gl: WebGLRenderingContext, program: WebGLProgram, bufferInfo: BufferInfo, name: string ) {
+    const location = gl.getAttribLocation(program, name);
+    const buffer = gl.createBuffer();
+    if(!buffer) throw new Error('Fail create buffer')
+    bufferInfo[name] = { buffer, location }
+}
+
+export function setAttrData(gl: WebGLRenderingContext, name: string, bufferInfo: BufferInfo, data: ArrayBuffer ) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, bufferInfo[name].buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+}

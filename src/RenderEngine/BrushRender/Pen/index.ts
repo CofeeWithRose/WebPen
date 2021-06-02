@@ -1,10 +1,9 @@
 import { BrushState, BrushTrackData } from "../../../Brush/types/PenInfer"
 import { Color } from "../../../Color"
-import { createProgram, createShader } from "../../glbase"
+import { BufferInfo, createAttrBuffer, createProgram, createShader, setAttrData } from "../../glbase"
 import { LINE_FRAGMENT_SHADER, LINE_VERTEXT_SHADER } from "./shaders/line"
 import { ROUND_FRAGMENT_SHADER, ROUND_VERTEXT_SHADER } from "./shaders/round";
 
-type BufferInfo = { [key: string]: { location: GLint, buffer: WebGLBuffer } }
 
 export class Pen {
 
@@ -45,48 +44,39 @@ export class Pen {
         // uniform float u_brushWidth;
 
         // // 压感 0~1.
-        this.createAttrBuffer(this.programs.lineProgram, this.lineBufferInfo, 'a_press')
+        createAttrBuffer(this.gl, this.programs.lineProgram, this.lineBufferInfo, 'a_press')
        
         // // 偏移方向 -1/1.
-        this.createAttrBuffer(this.programs.lineProgram, this.lineBufferInfo, 'a_offetDirection')
+        createAttrBuffer(this.gl, this.programs.lineProgram, this.lineBufferInfo, 'a_offetDirection')
         
 
         // // 开始坐标.
-        this.createAttrBuffer(this.programs.lineProgram,this.lineBufferInfo, 'a_position0')
+        createAttrBuffer(this.gl, this.programs.lineProgram,this.lineBufferInfo, 'a_position0')
        
 
         // // 结束坐标.
-        this.createAttrBuffer(this.programs.lineProgram,this.lineBufferInfo, 'a_position1')
+        createAttrBuffer(this.gl, this.programs.lineProgram,this.lineBufferInfo, 'a_position1')
       
         // // 当前坐标.
-        this.createAttrBuffer(this.programs.lineProgram, this.lineBufferInfo, 'a_position')
+        createAttrBuffer(this.gl, this.programs.lineProgram, this.lineBufferInfo, 'a_position')
     }
 
     private initRoundProgram() {
        // 压感 0~1.
       // attribute float a_press;
-      this.createAttrBuffer(this.programs.dotProgram, this.dotBufferInfo, 'a_press')
+      createAttrBuffer(this.gl,this.programs.dotProgram, this.dotBufferInfo, 'a_press')
 
       // // 当前坐标.
       // attribute vec2 a_position;
-      this.createAttrBuffer(this.programs.dotProgram, this.dotBufferInfo, 'a_position')
+      createAttrBuffer(this.gl,this.programs.dotProgram, this.dotBufferInfo, 'a_position')
 
       // // 偏移方向坐标.
       // attribute vec2 a_offset;
-      this.createAttrBuffer(this.programs.dotProgram, this.dotBufferInfo, 'a_offset')
+      createAttrBuffer(this.gl,this.programs.dotProgram, this.dotBufferInfo, 'a_offset')
     }
 
-    private createAttrBuffer(program: WebGLProgram, bufferInfo: BufferInfo, name: string ) {
-        const location = this.gl.getAttribLocation(program, name);
-        const buffer = this.gl.createBuffer();
-        if(!buffer) throw new Error('Fail create buffer')
-        bufferInfo[name] = { buffer, location }
-    }
+   
 
-    protected setAttrData(name: string, bufferInfo: BufferInfo, data: ArrayBuffer ) {
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, bufferInfo[name].buffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, data, this.gl.STATIC_DRAW);
-    }
 
     private setBrushWidth( program: WebGLProgram, val: number) {
         const location = this.gl.getUniformLocation(program, 'u_brushWidth')
@@ -100,7 +90,7 @@ export class Pen {
 
     private setBrushColor(program: WebGLProgram, r: number, g: number, b: number, a: number) {
         const location = this.gl.getUniformLocation(program, 'u_brushColor')
-        this.gl.uniform4f(location, r/ 255, g/255, b/255, a )
+        this.gl.uniform4f(location, r/255, g/255, b/255, a )
     }
 
 
@@ -185,23 +175,23 @@ export class Pen {
            
         }
         
-        this.setAttrData('a_position', this.lineBufferInfo, position)
+        setAttrData( this.gl, 'a_position', this.lineBufferInfo, position)
         this.gl.enableVertexAttribArray(this.lineBufferInfo['a_position'].location)
         this.gl.vertexAttribPointer(this.lineBufferInfo['a_position'].location, 2, this.gl.FLOAT, false, 0,0)
 
-        this.setAttrData('a_position0', this.lineBufferInfo, position0)
+        setAttrData( this.gl,'a_position0', this.lineBufferInfo, position0)
         this.gl.enableVertexAttribArray(this.lineBufferInfo['a_position0'].location)
         this.gl.vertexAttribPointer(this.lineBufferInfo['a_position0'].location, 2, this.gl.FLOAT, false, 0,0)
 
-        this.setAttrData('a_position1', this.lineBufferInfo, position1)
+        setAttrData( this.gl,'a_position1', this.lineBufferInfo, position1)
         this.gl.enableVertexAttribArray(this.lineBufferInfo['a_position1'].location)
         this.gl.vertexAttribPointer(this.lineBufferInfo['a_position1'].location, 2, this.gl.FLOAT, false, 0,0)
 
-        this.setAttrData('a_offetDirection', this.lineBufferInfo, offetDirection)
+        setAttrData( this.gl,'a_offetDirection', this.lineBufferInfo, offetDirection)
         this.gl.enableVertexAttribArray(this.lineBufferInfo['a_offetDirection'].location)
         this.gl.vertexAttribPointer(this.lineBufferInfo['a_offetDirection'].location, 1, this.gl.FLOAT, false, 0,0)
 
-        this.setAttrData('a_press', this.lineBufferInfo, press)
+        setAttrData( this.gl,'a_press', this.lineBufferInfo, press)
         this.gl.enableVertexAttribArray(this.lineBufferInfo['a_press'].location)
         this.gl.vertexAttribPointer(this.lineBufferInfo['a_press'].location, 1, this.gl.FLOAT, false, 0,0)
 
@@ -220,7 +210,7 @@ export class Pen {
       this.setWindowSize(this.programs.dotProgram, this.gl.canvas.width, this.gl.canvas.height)
       this.setBrushWidth(this.programs.dotProgram, width)
       this.setBrushColor(this.programs.dotProgram, color.r, color.g, color.b, color.a)
-      this.gl.enable(this.gl.BLEND)
+    
       
       const pointCount = data.length *2 *3
 
@@ -268,15 +258,15 @@ export class Pen {
 
       })
 
-      this.setAttrData('a_press', this.dotBufferInfo, press)
+      setAttrData( this.gl,'a_press', this.dotBufferInfo, press)
       this.gl.enableVertexAttribArray(this.dotBufferInfo['a_press'].location)
       this.gl.vertexAttribPointer(this.dotBufferInfo['a_press'].location, 1, this.gl.FLOAT, false, 0,0)
 
-      this.setAttrData('a_position', this.dotBufferInfo, position)
+      setAttrData( this.gl,'a_position', this.dotBufferInfo, position)
       this.gl.enableVertexAttribArray(this.dotBufferInfo['a_position'].location)
       this.gl.vertexAttribPointer(this.dotBufferInfo['a_position'].location, 2, this.gl.FLOAT, false, 0,0)
      
-      this.setAttrData('a_offset', this.dotBufferInfo, offset)
+      setAttrData( this.gl,'a_offset', this.dotBufferInfo, offset)
       this.gl.enableVertexAttribArray(this.dotBufferInfo['a_offset'].location)
       this.gl.vertexAttribPointer(this.dotBufferInfo['a_offset'].location, 2, this.gl.FLOAT, false, 0,0)
       

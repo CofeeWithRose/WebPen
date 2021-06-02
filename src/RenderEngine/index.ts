@@ -104,7 +104,9 @@ export class RenderEngin {
     let targetCanvas = this.topCanvas
     layers.forEach((layerEl) => {
       if(layerEl.id === activeLayerId) {
+        this.renderBrushes( this.activeCanvas, layerEl.getChildren() )
         targetCanvas = this.bottomCanvas
+        return
       } 
       this.renderBrushes( targetCanvas, layerEl.getChildren() )
     })
