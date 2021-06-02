@@ -5,11 +5,11 @@ export type PannelElChild = LayerEl
 
 export class PannelEl extends PElement<PannelElChild> {
 
-    readonly tag = EL_TAGS.LAYER
+    readonly tag = EL_TAGS.PANNEL
 
     activeLayerId = ''
 
-    getActiveLayer(){
+    getActiveLayer() {
         return this.children.find( ({id}) => id === this.activeLayerId )
     }
 

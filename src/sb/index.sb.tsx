@@ -17,7 +17,14 @@ export function Pannel() {
     const conainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-      // document.body.style.overflow='hidden'
+      setInterval(async () => {
+        const pannel = pannelRef.current
+        if(pannel) {
+          localStorage.setItem('xxx', await pannel.toJson())
+          console.log('save..');
+          
+        }
+      }, 800)
     },[])
     useEffect(() => {
       if(!conainerRef.current) return
@@ -28,9 +35,7 @@ export function Pannel() {
           height: window.innerHeight * window.devicePixelRatio,
         }
       )
-      
-      pannel.load()
-
+      pannel.load(localStorage.getItem('xxx'))
       pannel.brushState.width = 20 *window.devicePixelRatio
       pannel.brushState.color = new Color(0, 0,0, 0.2)
 

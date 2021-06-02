@@ -23,7 +23,7 @@ export  interface PannelInfer {
      * 加载作品.
      * @param pannelEl 
      */
-    load(pannelEl?: PannelEl): Promise<void>
+    load(pannelEl?: PannelEl|string|null): Promise<void>
 
     toJson(): Promise<string>
 

@@ -26,10 +26,12 @@ export function parseEl(pannelElStr?: string): PannelEl {
   }
   const vPannelEl: PannelEl = JSON.parse(pannelElStr)
   setProptype(vPannelEl, elMap)
+  console.log('vPannelEl', vPannelEl);
+  
   return vPannelEl
 }
 
 function setProptype(vEl: PElement<PElement<any>>, elMap: EL_MAP) {
-  Object.setPrototypeOf(vEl,  elMap[vEl.tag].prototype)
+  Object.setPrototypeOf(vEl,  elMap[vEl.tag])
   vEl.getChildren().forEach( el => setProptype(el, elMap))
 }

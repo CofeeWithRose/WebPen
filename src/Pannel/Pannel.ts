@@ -37,7 +37,7 @@ export class Pannel implements PannelInfer {
       return parseEl(json)
     }
 
-    async load(pannelEl?: PannelEl| string): Promise<void> {
+    async load(pannelEl?: PannelEl|string|null): Promise<void> {
      
       if ( typeof pannelEl === 'string' ) {
         pannelEl = await this.parse(pannelEl)
