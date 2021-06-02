@@ -9,8 +9,11 @@ export class Input {
 
     constructor( private cover: HTMLElement, state:BrushState) {
         cover.addEventListener('pointerdown', this.onPointStart, {passive: false})
+
         cover.addEventListener('pointermove', this.onPointMove, {passive: false})
+        
         cover.addEventListener('pointerup', this.onPointEnd, {passive: false})
+        cover.addEventListener('pointercancel', this.onPointEnd, {passive: false})
         this.state = state
     }
 
@@ -22,7 +25,12 @@ export class Input {
 
     public onEnd(brush:BrushEl) {}
 
+
+    protected pointId: number = NaN
+
     private onPointStart= (e:PointerEvent) => {
+        console.log('point start');
+        if ( isNaN(this.pointId) ) this.pointId = e.pointerId     
         e.preventDefault()
         // if (e.pointerType !== 'pen') return
         this.dpr = window.devicePixelRatio
@@ -40,10 +48,11 @@ export class Input {
     private loadBrushData = (e: PointerEvent[], nextE: PointerEvent[]) => {
         if (!this.curBrush) return
         const data = this.curBrush.data
+        
         e.forEach(e => {
             data.push({
                 position: {x: e.offsetX * this.dpr, y: e.offsetY * this.dpr },
-                press: e.pressure||1
+                press: (  e.pointerType !== 'pen' && !e.pressure)? 1: e.pressure
             })
         })
         this.curBrush.nextData = nextE.map ( e =>  ({
@@ -54,8 +63,9 @@ export class Input {
 
 
     private onPointMove = (e:PointerEvent) => {
-        console.time('mm');
+        console.time('onPointMove');
         e.preventDefault()
+        if(e.pointerId !== this.pointId) return
         // if (e.pointerType !== 'pen') return
         if (!this.curBrush) return
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : []
@@ -63,17 +73,20 @@ export class Input {
         events.push(e)
         this.loadBrushData(events, [])
         this.onUpdate(this.curBrush)
-        console.timeEnd('mm');
+        console.timeEnd('onPointMove');
     }
 
     private onPointEnd = (e:PointerEvent) => {
       // if (e.pointerType !== 'pen') return
       // console.log('end..', Date.now() * 0.001);
+      console.time('onPointEnd');
+      if(e.pointerId !== this.pointId) return
       if(!this.curBrush)  return
       this.curBrush.nextData = []
       this.onEnd(this.curBrush)
       this.curBrush = null
-      
+      this.pointId = NaN
+      console.timeEnd('onPointEnd');
       // const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
     }
 }
