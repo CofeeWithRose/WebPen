@@ -37,13 +37,11 @@ export class Pannel implements PannelInfer {
     }
 
     redo() {
-      this.recorder.redo()
-      this.renderEngin.renderTree()
+      if (this.recorder.redo())this.renderEngin.renderTree()
     }
 
     undo() {
-      this.recorder.undo()
-      this.renderEngin.renderTree()
+      if (this.recorder.undo()) this.renderEngin.renderTree()
     }
 
     async toJson(): Promise<string> {

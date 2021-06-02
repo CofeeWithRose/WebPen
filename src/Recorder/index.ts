@@ -35,17 +35,18 @@ export class Recorder {
     this.rootEl = pannelEl
   }
 
-  undo() {
-    if (this.curIndex < 0) return
+  undo(): boolean {
+    if (this.curIndex < 0) return false
     const operate = this.operateList[this.curIndex--]
     this.operateHandle[operate.type].revert(operate)
+    return true
   }
 
-  redo() {
-    if (this.curIndex >= this.operateList.length -1) return
+  redo():boolean {
+    if (this.curIndex >= this.operateList.length -1) return false
     const operate = this.operateList[++this.curIndex]
     this.operateHandle[operate.type].do(operate)
-
+    return true
   }
 
   addOperate(operate: Operate<OperateType> ) {

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createPannel, PannelInfer, PannelEl, LayerEl, BrushEl } from 'webpen';
 import VConsole from 'vconsole';
 import { Color } from '../Color';
@@ -17,6 +17,8 @@ export function Pannel() {
     const conainerRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+      document.body.style.overflow = 'hidden'
+      // window.addEventListener( 'click', e => e.preventDefault())
       setInterval(async () => {
         const pannel = pannelRef.current
         if(pannel) {
@@ -55,11 +57,45 @@ export function Pannel() {
       pannel?.redo()
     }
 
+    const [ color, setColor ] = useState('#0000')
+
+    const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const pannel = pannelRef.current
+      if (!pannel) return
+      const colorStr = e.target.value
+      setColor(colorStr)
+      const color: Color = new Color(
+        parseInt(colorStr.substr(1, 2), 16),
+        parseInt(colorStr.substr(3, 2), 16),
+        parseInt(colorStr.substr(5, 2), 16),
+        pannel.brushState.color.a,
+      )
+      pannel.brushState.color = color
+    }
+
+    const [opacity, setOpacity] = useState(0.2)
+
+    const handleOptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const pannel = pannelRef.current
+      if (!pannel) return
+      const value = Number(e.target.value)
+      setOpacity(value)
+      const oldColor = pannel.brushState.color
+      pannel.brushState.color = new Color(
+        oldColor.r,
+        oldColor.g,
+        oldColor.b,
+        value
+      )
+    }
+    
     return <div>
       <div> 
         <button onClick={clear} >clear</button> 
         <button onClick={undo} >undo</button>
         <button onClick={redo} >redo</button>
+        <input type="color" onChange={onColorChange} value={color}/>
+        <input type="range" min={0} max={1} onChange={handleOptChange} step={0.1} value={opacity} />
       </div>
       <div style={{position: 'relative'}} ref={conainerRef}/>
     </div>
