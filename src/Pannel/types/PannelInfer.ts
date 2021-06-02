@@ -29,6 +29,10 @@ export  interface PannelInfer {
 
     parse(json: string): Promise<PannelEl>
 
+    undo(): void
+
+    redo(): void
+
 }
 
 

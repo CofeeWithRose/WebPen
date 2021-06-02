@@ -40,5 +40,28 @@ export function Pannel() {
 
     }, [])
 
-    return <div ref={conainerRef}/>
+    const clear = () => {
+      localStorage.removeItem('xxx')
+      window.location.reload()
+    }
+
+    const undo = () => {
+      const pannel = pannelRef.current
+      pannel?.undo()
+    }
+
+    const redo = () => {
+      const pannel = pannelRef.current
+      pannel?.redo()
+    }
+
+    return <div>
+      <div> 
+        <button onClick={clear} >clear</button> 
+        <button onClick={undo} >undo</button>
+        <button onClick={redo} >redo</button>
+      </div>
+      <div style={{position: 'relative'}} ref={conainerRef}/>
+    </div>
+   
 }

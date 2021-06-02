@@ -5,6 +5,7 @@ import { createEmpty, parseEl, stringifyEl } from "../PElement";
 import { BrushEl } from "../PElement/BrushEl";
 import { LayerEl } from "../PElement/LayerEl";
 import { PannelEl } from "../PElement/PannelEl";
+import { Recorder } from "../Recorder";
 import { RenderEngin } from "../RenderEngine";
 import { PannelInfer, PannelOptions } from "./types/PannelInfer";
 
@@ -16,9 +17,11 @@ export class Pannel implements PannelInfer {
 
     protected pannelEl: PannelEl|null = null
 
-    renderEngin: RenderEngin
+    protected renderEngin: RenderEngin
 
-    input: Input
+    protected input: Input
+
+    protected recorder: Recorder
 
     protected size: { width: number, height: number }
 
@@ -29,6 +32,18 @@ export class Pannel implements PannelInfer {
       this.input.onBegin = this.onInputBegin
       this.input.onUpdate = this.onInputUpdate
       this.input.onEnd = this.onInputEnd
+      this.recorder = new Recorder()
+
+    }
+
+    redo() {
+      this.recorder.redo()
+      this.renderEngin.renderTree()
+    }
+
+    undo() {
+      this.recorder.undo()
+      this.renderEngin.renderTree()
     }
 
     async toJson(): Promise<string> {
@@ -46,6 +61,7 @@ export class Pannel implements PannelInfer {
       }
       this.pannelEl = pannelEl? pannelEl : createEmpty(this.size.width, this.size.height)
       this.renderEngin.load(this.pannelEl)
+      this.recorder.init(this.pannelEl)
     }
 
    
@@ -61,8 +77,16 @@ export class Pannel implements PannelInfer {
       this.renderEngin.renderBrsuh(brushEl)
     }
 
-    private onInputEnd = () => {
+    private onInputEnd = (brushEl: BrushEl) => {
+      if (!this.pannelEl) return
       this.renderEngin.submitActiveLayer()
+      this.recorder.addOperate( { 
+        type: 'addBrush', 
+        data: { 
+          targetLayerId: this.pannelEl.activeLayerId,
+          brushEl
+        } 
+      })
       // console.log(JSON.stringify(this.pannelEl));
     }
 

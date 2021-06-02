@@ -1,6 +1,18 @@
+ 
+ 
+ draw and paint libary.
 
->> Base draw
->>> draw lines when mouse/pen move
->>> optional pannel size and resize
->>> 
+Plan
+
+> draw .
+
+> save/recove.
+
+> redo/undo.
+
+> eraser.
+
+
+issue
+> renderEngin init canvas should by pannelEL size.
 

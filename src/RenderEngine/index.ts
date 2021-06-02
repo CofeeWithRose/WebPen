@@ -82,9 +82,23 @@ export class RenderEngin {
     this.renderTree()
   }
 
+  protected clear () {
+    const canvaes: HTMLCanvasElement[] = [ 
+      this.topCanvas,
+      this.activeCanvas,
+      this.bottomCanvas,
+    ]
+    canvaes.forEach(  canvas => {
+      const ctx = canvas.getContext('2d')
+      ctx?.clearRect(0,0, canvas.width, canvas.height)
+    })
+    this.renderer.clear()
+  }
+
   async renderTree(): Promise<void> {
     if (!this.root) return
     console.time('r')
+    this.clear()
     const activeLayerId = this.root.activeLayerId
     const layers = this.root.getChildren()
     let targetCanvas = this.topCanvas
