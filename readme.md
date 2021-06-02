@@ -6,9 +6,11 @@ Plan
 
 > draw .
 
-> save/recove.
+> save/recover.
 
 > redo/undo.
+
+> layer.
 
 > eraser.
 
