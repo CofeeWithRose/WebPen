@@ -27,6 +27,7 @@ export function Pannel() {
         }
       }, 5000)
     },[])
+
     useEffect(() => {
       if(!conainerRef.current) return
       const pannel = pannelRef.current = createPannel(
@@ -88,12 +89,12 @@ export function Pannel() {
         value
       )
     }
-    
+
     return <div>
       <div> 
-        <button onClick={clear} >clear</button> 
-        <button onClick={undo} >undo</button>
-        <button onClick={redo} >redo</button>
+        <button onClick={clear}>clear</button> 
+        <button onClick={undo}>undo</button>
+        <button onClick={redo}>redo</button>
         <input type="color" onChange={onColorChange} value={color}/>
         <input type="range" min={0} max={1} onChange={handleOptChange} step={0.1} value={opacity} />
       </div>
