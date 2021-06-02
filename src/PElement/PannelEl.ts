@@ -9,6 +9,10 @@ export class PannelEl extends PElement<PannelElChild> {
 
     activeLayerId = ''
 
+    width = 0
+
+    height = 0
+
     getActiveLayer() {
         return this.children.find( ({id}) => id === this.activeLayerId )
     }

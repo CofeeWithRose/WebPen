@@ -20,9 +20,11 @@ export class Pannel implements PannelInfer {
 
     input: Input
 
-    constructor(container:HTMLElement, opt?: PannelOptions) {
-      opt = { width: 800, height: 800, ...opt}
-      this.renderEngin = new RenderEngin(container, opt)
+    protected size: { width: number, height: number }
+
+    constructor(container:HTMLElement, _opt?: PannelOptions) {
+      this.size = { width: 800, height: 800, ..._opt}
+      this.renderEngin = new RenderEngin(container, this.size)
       this.input = new Input(this.renderEngin.cover, this.brushState)
       this.input.onBegin = this.onInputBegin
       this.input.onUpdate = this.onInputUpdate
@@ -34,17 +36,15 @@ export class Pannel implements PannelInfer {
     }
     
     async parse(json: string): Promise<PannelEl> {
-      return parseEl(json)
+      const el = parseEl(json)
+      return el? el : createEmpty(this.size.width, this.size.height)
     }
 
     async load(pannelEl?: PannelEl|string|null): Promise<void> {
-     
       if ( typeof pannelEl === 'string' ) {
-        
-        
         pannelEl = await this.parse(pannelEl)
       }
-      this.pannelEl = pannelEl? pannelEl : createEmpty()
+      this.pannelEl = pannelEl? pannelEl : createEmpty(this.size.width, this.size.height)
       this.renderEngin.load(this.pannelEl)
     }
 

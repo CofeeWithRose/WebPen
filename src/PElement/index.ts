@@ -4,8 +4,10 @@ import { PannelEl } from "./PannelEl";
 import { EL_TAGS, PElement, ElConstructor } from "./PElement";
 
 
-export  function createEmpty() {
+export  function createEmpty(w: number, h: number) {
   const root = new PannelEl()
+  root.width = w
+  root.height = h
   root.addChild(new LayerEl())
   return root
 }
@@ -17,8 +19,8 @@ export function stringifyEl(pannelEl: PannelEl|null) {
 
 type EL_MAP = { [ index in EL_TAGS]: ElConstructor }
 
-export function parseEl(pannelElStr?: string): PannelEl {
-  if (!pannelElStr) return createEmpty()
+export function parseEl(pannelElStr?: string): PannelEl| null {
+  if (!pannelElStr) return null
   const elMap: EL_MAP = {
     [EL_TAGS.PANNEL]: PannelEl,
     [EL_TAGS.LAYER]: LayerEl,

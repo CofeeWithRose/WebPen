@@ -19,7 +19,7 @@ export class RenderEngin {
 
   private topCanvas: HTMLCanvasElement = document.createElement('canvas')
 
-  private realTimeCanvas: HTMLCanvasElement = document.createElement('canvas')
+  //Here  is a realTimeCanvas.
 
   private activeCanvas: HTMLCanvasElement = document.createElement('canvas')
 
@@ -38,7 +38,8 @@ export class RenderEngin {
 
     this.initCanvas(this.bottomCanvas, opt, 'bottomCanvas')
     this.initCanvas(this.activeCanvas, opt, 'active')
-    this.initCanvas(this.realTimeCanvas, opt, 'realTime')
+    const realTimeCanvas: HTMLCanvasElement = document.createElement('canvas')
+    this.initCanvas(realTimeCanvas, opt, 'realTime')
     this.initCanvas(this.topCanvas, opt, 'top')
 
     this.cover.style.width=`${width}px`
@@ -53,7 +54,7 @@ export class RenderEngin {
 
     view.appendChild(this.scroller)
 
-    this.renderer = new Renderer(this.realTimeCanvas)
+    this.renderer = new Renderer(realTimeCanvas)
 
   }
 
@@ -76,6 +77,7 @@ export class RenderEngin {
   }
 
   async load(root: PannelEl): Promise<void> {
+    // TODO cnavas size 从 pannelEl中提取.
     this.root = root
     this.renderTree()
   }
@@ -105,7 +107,7 @@ export class RenderEngin {
     brushELList.forEach( brushEl => {
       this.renderer.clear()
       this.renderer.renderBrush(brushEl) 
-      ctx.drawImage(this.realTimeCanvas, 0, 0)
+      ctx.drawImage(this.renderer.canvas, 0, 0)
     })
     this.renderer.clear()
   }
