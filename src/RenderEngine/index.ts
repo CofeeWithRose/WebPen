@@ -129,7 +129,7 @@ export class RenderEngin {
     this.renderer.clear()
   }
 
-  submitActiveLayer() {
+  submitRealTime() {
     const activeCtx = this.activeCanvas.getContext('2d')
     if ( !activeCtx) return
     activeCtx?.drawImage(this.renderer.canvas, 0, 0)
@@ -137,7 +137,7 @@ export class RenderEngin {
     // console.log('render to activeLayer')
   }
 
-  renderBrsuh(el: BrushEl) {
+  renderRealTime(el: BrushEl) {
     this.renderer.clear()
     this.renderer.renderBrush(el)
   }

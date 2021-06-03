@@ -68,16 +68,16 @@ export class Pannel implements PannelInfer {
       if (!this.pannelEl) return
       const activeLayer = this.pannelEl?.getActiveLayer()
       activeLayer?.addChild(brushEl)
-      this.renderEngin.renderBrsuh(brushEl)
+      this.renderEngin.renderRealTime(brushEl)
     }
 
     private onInputUpdate = (brushEl: BrushEl) => {
-      this.renderEngin.renderBrsuh(brushEl)
+      this.renderEngin.renderRealTime(brushEl)
     }
 
     private onInputEnd = (brushEl: BrushEl) => {
       if (!this.pannelEl) return
-      this.renderEngin.submitActiveLayer()
+      this.renderEngin.submitRealTime()
       this.recorder.addOperate( { 
         type: 'addBrush', 
         data: { 
