@@ -27,6 +27,7 @@ export class Pannel implements PannelInfer {
 
     constructor(container:HTMLElement, _opt?: PannelOptions) {
       this.size = { width: 800, height: 800, ..._opt}
+      container.addEventListener('touchstart', e => e.preventDefault())
       this.renderEngin = new RenderEngin(container, this.size)
       this.input = new Input(this.renderEngin.cover, this.brushState)
       this.input.onBegin = this.onInputBegin
