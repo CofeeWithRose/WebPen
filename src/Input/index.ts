@@ -51,7 +51,7 @@ export class Input {
         
         e.forEach(e => {
             data.push({
-                position: {x: e.offsetX * this.dpr, y: e.offsetY * this.dpr },
+                position: {x:Math.round(e.offsetX * this.dpr), y: Math.round(e.offsetY * this.dpr) },
                 press: (  e.pointerType !== 'pen' && !e.pressure)? 1: e.pressure
             })
         })

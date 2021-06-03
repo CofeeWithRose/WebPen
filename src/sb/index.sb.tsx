@@ -95,7 +95,7 @@ export function Pannel() {
     const handleBrushWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
       const pannel = pannelRef.current
       if ( !pannel) return 
-      const width =  Number(e.target.value)
+      const width =  parseInt(e.target.value)
       setBrushWidth(width)
       pannel.brushState.width = width
     }

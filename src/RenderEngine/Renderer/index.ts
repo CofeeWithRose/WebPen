@@ -82,9 +82,9 @@ export class Renderer {
           
     }
 
-    private setWindowSize(program: WebGLProgram, ...valus: [number, number]) {
+    private setWindowSize(program: WebGLProgram, w: number, h: number) {
         const location = this.gl.getUniformLocation(program, 'u_windowSize')
-        this.gl.uniform2f(location, ...valus )
+        this.gl.uniform2f(location, w, h )
     }
 
     private setBrushColor(program: WebGLProgram, r: number, g: number, b: number, a: number) {
