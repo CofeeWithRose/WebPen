@@ -121,12 +121,11 @@ export class RenderEngin {
   ):  Promise<void> {
     const ctx = tagetCanvas.getContext('2d')
     if (!ctx) return
-    
-    brushELList.forEach( brushEl => {
-      this.renderer.clear()
+    this.renderer.clear()
+    brushELList.forEach( brushEl => { 
       this.renderer.renderBrush(brushEl) 
-      ctx.drawImage(this.renderer.canvas, 0, 0)
     })
+    ctx.drawImage(this.renderer.canvas, 0, 0)
     this.renderer.clear()
   }
 
@@ -136,7 +135,6 @@ export class RenderEngin {
     activeCtx?.drawImage(this.renderer.canvas, 0, 0)
     this.renderer.clear()
     // console.log('render to activeLayer')
- 
   }
 
   renderBrsuh(el: BrushEl) {
