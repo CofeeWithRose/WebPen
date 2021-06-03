@@ -2,7 +2,8 @@
  
 painting in broswer, support  pen with pressure.
 
-Plan
+
+### Plan
 
 > draw, complete.
 
@@ -16,19 +17,20 @@ Plan
 
 > select area and move, todo.
 
-> useage doc, todo.
+> demo, todo.
 
 > arch doc, todo.
 
 
 
-issue
+### Issue
+
 > renderEngin init canvas should by pannelEL size.
-> pointerstart event lost on ipad.
+
 > composite layer with drawImage is slow on ipad, change another way to implement composite or reduce composite operate?
 
-Doc
 
+### Demo
 
 basic.js
 ````
