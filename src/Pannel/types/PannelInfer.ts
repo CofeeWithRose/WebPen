@@ -1,4 +1,4 @@
-import { BrushConstructor, BrushInfer, BrushState, BRUSH_TYPES } from "../../Brush/types/PenInfer";
+import { BrushState, BRUSH_TYPES } from "../../Brush/types/PenInfer";
 import { PannelEl } from "../../PElement/PannelEl";
 
 
@@ -9,15 +9,12 @@ export  interface PannelInfer {
 
     readonly brushState: BrushState
     
-    brushType: string
-
     /**
-     * 设置当前画笔类型.
-     * @param peninfer 
+     * 当前画笔类型
      */
-    useBrush( brushType: BRUSH_TYPES|string ): void
+    brushType: string | BRUSH_TYPES 
 
-    registBrush(brushType: string, brush: BrushConstructor): void
+    // registBrush(brushType: string, brush: BrushConstructor): void
 
     /**
      * 加载作品.
@@ -25,8 +22,15 @@ export  interface PannelInfer {
      */
     load(pannelEl?: PannelEl|string|null): Promise<void>
 
+    /**
+     * 序列化.
+     */
     toJson(): Promise<string>
 
+    /**
+     * 反序列化.
+     * @param json 
+     */
     parse(json: string): Promise<PannelEl>
 
     undo(): void

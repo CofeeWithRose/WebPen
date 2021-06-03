@@ -1,5 +1,5 @@
 import { defaultState } from "../Brush/Pen";
-import { BrushConstructor, BrushState, BRUSH_TYPES } from "../Brush/types/PenInfer";
+import { BrushState, BRUSH_TYPES } from "../Brush/types/PenInfer";
 import { Input } from "../Input";
 import { createEmpty, parseEl, stringifyEl } from "../PElement";
 import { BrushEl } from "../PElement/BrushEl";
@@ -85,18 +85,5 @@ export class Pannel implements PannelInfer {
         } 
       })
     }
-
-
-
-    useBrush(brushType: string | BRUSH_TYPES): void {
-      this.brushType = brushType
-    }
-
-    registBrush(brushType: string, brush: BrushConstructor): void {
-      throw new Error("Method not implemented.");
-    }
-
-    
-
 
 }

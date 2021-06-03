@@ -43,7 +43,5 @@ export interface BrushTrackData {
 export enum BRUSH_TYPES {
 
    PEN='PEN',
-
-   UNKNOW='KNOWN',
    
 }
