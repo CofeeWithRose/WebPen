@@ -48,7 +48,7 @@ export class RenderEngin {
     this.cover.style.opacity= '0.1'
     this.cover.style.touchAction = 'none'
     this.cover.style.userSelect='none'
-    this.cover.tabIndex = 0
+    // this.cover.tabIndex = 0
 
     this.scroller.appendChild(this.cover)
     this.setLayoutStyle(this.cover, width, height)
