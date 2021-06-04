@@ -29,6 +29,11 @@ export interface BrushState {
 
 }
 
+export const defaultBrushState:BrushState  = {
+  width: 20,
+  color: new Color()
+}
+
 export interface BrushConstructor {
    new (): BrushInfer
 }

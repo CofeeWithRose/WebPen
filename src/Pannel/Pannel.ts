@@ -1,9 +1,7 @@
-import { defaultState } from "../Brush/Pen";
-import { BrushState, BRUSH_TYPES } from "../Brush/types/PenInfer";
+import { BrushState, BRUSH_TYPES, defaultBrushState } from "../Brush/types/PenInfer";
 import { Input } from "../Input";
 import { createEmpty, parseEl, stringifyEl } from "../PElement";
 import { BrushEl } from "../PElement/BrushEl";
-import { LayerEl } from "../PElement/LayerEl";
 import { PannelEl } from "../PElement/PannelEl";
 import { Recorder } from "../Recorder";
 import { RenderEngin } from "../RenderEngine";
@@ -11,7 +9,7 @@ import { PannelInfer, PannelOptions } from "./types/PannelInfer";
 
 export class Pannel implements PannelInfer {
 
-    readonly  brushState: BrushState = defaultState;
+    readonly  brushState: BrushState = defaultBrushState;
 
     brushType: BRUSH_TYPES|string = BRUSH_TYPES.PEN;
 
