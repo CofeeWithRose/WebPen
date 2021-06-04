@@ -102,13 +102,13 @@ export function Pannel() {
 
 
     return <div>
-      <div> 
+      <div onClick={e => e.preventDefault()}> 
         <button onClick={clear}>clear</button> 
         <button onClick={undo}>undo</button>
         <button onClick={redo}>redo</button>
         <input type="color" onChange={onColorChange} value={color}/>
-        opacity <input type="range" min={0} max={1} onChange={handleOptChange} step={0.1} value={opacity} />
-        brush width <input type="range" min={20} max={800} onChange={handleBrushWidth} step={0.1} value={brushWidth} />
+        opacity <input type="range" min={0} max={1} onChange={handleOptChange} step={0.01} value={opacity} />
+        brush width <input type="range" min={20} max={800} onChange={handleBrushWidth} step={0.01} value={brushWidth} />
       </div>
       <div style={{position: 'relative'}} ref={conainerRef}/>
     </div>
