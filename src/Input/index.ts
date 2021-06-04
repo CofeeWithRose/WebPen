@@ -14,6 +14,7 @@ export class Input {
         
         cover.addEventListener('pointerup', this.onPointEnd, {passive: false})
         cover.addEventListener('pointercancel', this.onPointEnd, {passive: false})
+        cover.addEventListener('pointerout', this.onPointEnd, {passive: false})
         this.state = state
     }
 
