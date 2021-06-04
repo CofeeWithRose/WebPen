@@ -37,7 +37,7 @@ export class Pannel implements PannelInfer {
     }
 
     redo() {
-      if (this.recorder.redo())this.renderEngin.renderTree()
+      if (this.recorder.redo()) this.renderEngin.renderTree()
     }
 
     undo() {
@@ -62,20 +62,17 @@ export class Pannel implements PannelInfer {
       this.recorder.init(this.pannelEl)
     }
 
-   
-
-    private onInputBegin = (brushEl: BrushEl) => {
+    protected onInputBegin = (brushEl: BrushEl) => {
       if (!this.pannelEl) return
-      const activeLayer = this.pannelEl?.getActiveLayer()
-      activeLayer?.addChild(brushEl)
+      this.pannelEl.addBrush(brushEl)
       this.renderEngin.renderRealTime(brushEl)
     }
 
-    private onInputUpdate = (brushEl: BrushEl) => {
+    protected onInputUpdate = (brushEl: BrushEl) => {
       this.renderEngin.renderRealTime(brushEl)
     }
 
-    private onInputEnd = (brushEl: BrushEl) => {
+    protected onInputEnd = (brushEl: BrushEl) => {
       if (!this.pannelEl) return
       this.renderEngin.submitRealTime()
       this.recorder.addOperate( { 

@@ -4,11 +4,9 @@ export abstract class PElement<CHILD extends PElement<any>> {
 
     readonly id = `el-${elID++}`
 
-    readonly tag: EL_TAGS = EL_TAGS.UNKNOW
+    readonly tag: EL_TAGS = EL_TAGS.PANNEL
 
     offset = { x: 0, y: 0 }
-
-    // parent: null|PElement<any> = null
 
     protected children: CHILD[] = []
 
