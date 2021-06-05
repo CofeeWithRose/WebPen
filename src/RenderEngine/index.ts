@@ -11,6 +11,7 @@ export const defaultOpt: RenderEnginOpt = {
   width: 800,
   height: 800,
 }
+
 export class RenderEngin {
 
   root: PannelEl| null = null
@@ -42,16 +43,17 @@ export class RenderEngin {
     this.initCanvas(realTimeCanvas, opt, 'realTime')
     this.initCanvas(this.topCanvas, opt, 'top')
 
-    this.cover.style.width=`${width}px`
-    this.cover.style.height=`${height}px`
+    this.cover.style.width=`${opt.width}px`
+    this.cover.style.height=`${opt.height}px`
+    this.cover.style.transform = `scale(${1/window.devicePixelRatio})`
+    this.cover.style.transformOrigin = '0 0'
     this.cover.style.background= '#808080'
     this.cover.style.opacity= '0.1'
     this.cover.style.touchAction = 'none'
     this.cover.style.userSelect='none'
-    // this.cover.tabIndex = 0
-
+    
     this.scroller.appendChild(this.cover)
-    this.setLayoutStyle(this.cover, width, height)
+    this.setLayoutStyle(this.cover)
    
 
     view.appendChild(this.scroller)
@@ -60,22 +62,24 @@ export class RenderEngin {
 
   }
 
+
   private initCanvas(canvas:HTMLCanvasElement, opt: RenderEnginOpt, name: string) {
     const width = opt.width/window.devicePixelRatio
     const height = opt.height/window.devicePixelRatio
     canvas.width = opt.width
     canvas.height = opt.height
-    canvas.setAttribute(name, 'qq')
-    this.setLayoutStyle(canvas, width, height)
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
+    canvas.setAttribute(name, '')
+    this.setLayoutStyle(canvas)
     this.scroller.appendChild(canvas)
   }
 
-  private setLayoutStyle(el:HTMLElement, w: number, h: number) {
+  private setLayoutStyle(el:HTMLElement) {
     el.style.position = 'absolute'
     el.style.top= '0'
     el.style.left = '0'
-    el.style.width = `${w}px`
-    el.style.height = `${h}px`
+  
   }
 
   async load(root: PannelEl): Promise<void> {

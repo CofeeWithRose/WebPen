@@ -46,4 +46,14 @@ export class Color {
       this.b = b;
       this.a = a;
     }
+
+    toRGBHex(): string {
+      return `#${
+        this.r.toString(16).padStart(2, '0')
+      }${
+        this.g.toString(16).padStart(2, '0')
+      }${
+        this.b.toString(16).padStart(2, '0')
+      }`
+    }
 }

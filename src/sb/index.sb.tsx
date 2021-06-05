@@ -1,15 +1,18 @@
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPannel, PannelInfer } from 'webpen';
 import VConsole from 'vconsole';
 import { Color } from '../Color';
 
-const vConsole = new VConsole();
+const vConsole = new VConsole({ maxLogNumber: 1000 });
 
 export default {
     title: 'Example/Pannel',
     component: Pannel,
 };
+
+const defaultWidth = 170
+const defaultColor = new Color()
 
 export function Pannel() {
   
@@ -38,10 +41,11 @@ export function Pannel() {
         }
       )
       pannel.load(localStorage.getItem('xxx'))
-      pannel.brushState.width = 20 *window.devicePixelRatio
-      pannel.brushState.color = new Color(0, 0,0, 0.2)
-
+      pannel.brushState.width = defaultWidth
+      pannel.brushState.color = defaultColor
     }, [])
+
+    
 
     const clear = () => {
       localStorage.removeItem('xxx')
@@ -58,7 +62,7 @@ export function Pannel() {
       pannel?.redo()
     }
 
-    const [ color, setColor ] = useState('#000000')
+    const [ color, setColor ] = useState(defaultColor.toRGBHex())
 
     const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const pannel = pannelRef.current
@@ -74,7 +78,7 @@ export function Pannel() {
       pannel.brushState.color = color
     }
 
-    const [opacity, setOpacity] = useState(0.2)
+    const [opacity, setOpacity] = useState(defaultColor.a)
 
     const handleOptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const pannel = pannelRef.current
@@ -90,7 +94,7 @@ export function Pannel() {
       )
     }
 
-    const [brushWidth, setBrushWidth] = useState(20)
+    const [brushWidth, setBrushWidth] = useState(defaultWidth)
 
     const handleBrushWidth = (e: React.ChangeEvent<HTMLInputElement>) => {
       const pannel = pannelRef.current
@@ -100,15 +104,28 @@ export function Pannel() {
       pannel.brushState.width = width
     }
 
+    const preventDedault = (e: React.SyntheticEvent) => e.preventDefault()
+
+    const nowrap: CSSProperties = {
+      whiteSpace: 'nowrap'
+    }
 
     return <div>
-      <div onClick={e => e.preventDefault()}> 
-        <button onClick={clear}>clear</button> 
-        <button onClick={undo}>undo</button>
-        <button onClick={redo}>redo</button>
+      <div> 
+        <span onClick={preventDedault}>
+          <button onClick={clear}>clear</button> 
+          <button onClick={undo}>undo</button>
+          <button onClick={redo}>redo</button>
+        </span>
+       
         <input type="color" onChange={onColorChange} value={color}/>
-        opacity <input type="range" min={0} max={1} onChange={handleOptChange} step={0.01} value={opacity} />
-        brush width <input type="range" min={20} max={800} onChange={handleBrushWidth} step={0.01} value={brushWidth} />
+        <span style={nowrap}  onClick={preventDedault}>
+          opacity {opacity} <input type="range" min={0} max={1} onChange={handleOptChange} step={0.01} value={opacity} />
+        </span>
+        <span style={nowrap} onClick={preventDedault} >
+          brush width {brushWidth} <input type="range" min={20} max={800} onChange={handleBrushWidth} step={0.01} value={brushWidth} />
+        </span>
+        
       </div>
       <div style={{position: 'relative'}} ref={conainerRef}/>
     </div>

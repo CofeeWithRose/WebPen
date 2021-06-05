@@ -28,11 +28,11 @@ export abstract class PElement<CHILD extends PElement<any>> {
 
 export enum EL_TAGS {
 
-    PANNEL,
+    PANNEL='P',
 
-    LAYER,
+    LAYER = 'L',
 
-    BRUSH,
+    BRUSH = 'B',
 
     // UNKNOW,
 

@@ -34,7 +34,8 @@ export const FRAGMENT_SHADER = `
     void main(){
 
         vec4 textColor = texture2D(u_image, vec2(gl_FragCoord.x, gl_FragCoord.y)/u_windowSize);
-        if (textColor.a > 0.0) {
+      
+        if ((textColor.a) > 0.0) {
             gl_FragColor = u_brushColor;
             // gl_FragColor = textColor;
         } else {
