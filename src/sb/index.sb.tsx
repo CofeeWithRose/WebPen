@@ -22,13 +22,14 @@ export function Pannel() {
     useEffect(() => {
       document.body.style.overflow = 'hidden'
       // window.addEventListener( 'click', e => e.preventDefault())
-      setInterval(async () => {
+      const inetr =  setInterval(async () => {
         const pannel = pannelRef.current
         if(pannel) {
           localStorage.setItem('xxx', await pannel.toJson())
           console.log('save..');
         }
       }, 5000)
+      return () => clearInterval(inetr)
     },[])
 
     useEffect(() => {

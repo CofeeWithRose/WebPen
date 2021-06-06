@@ -14,7 +14,7 @@ export function createShader(gl: WebGLRenderingContext, type: GLenum, source: st
     if (success) {
       return shader;
     } else {
-      throw new Error(`[Compile Shader Failed] ${gl.getShaderInfoLog(shader)}`);
+      throw new Error(`[Compile Shader Failed] source: ${source} info: ${gl.getShaderInfoLog(shader)}`);
     }
 }
 
@@ -36,16 +36,19 @@ export function createProgram(
     }
   }
 
-export type BufferInfo = { [key: string]: { location: GLint, buffer: WebGLBuffer } }
 
-export function createAttrBuffer(gl: WebGLRenderingContext, program: WebGLProgram, bufferInfo: BufferInfo, name: string ) {
+
+export type BufferInfo<T extends string> = { [P in T]: { location: GLint, buffer: WebGLBuffer } }
+
+
+export function createAttrBuffer<T extends string>(gl: WebGLRenderingContext, program: WebGLProgram, bufferInfo: Partial<BufferInfo<T>>, name: T ) {
     const location = gl.getAttribLocation(program, name);
     const buffer = gl.createBuffer();
     if(!buffer) throw new Error('Fail create buffer')
     bufferInfo[name] = { buffer, location }
 }
 
-export function setAttrData(gl: WebGLRenderingContext, name: string, bufferInfo: BufferInfo, data: ArrayBuffer ) {
+export function setAttrData<T extends string>(gl: WebGLRenderingContext, name: T, bufferInfo: BufferInfo<T>, data: ArrayBuffer ) {
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferInfo[name].buffer);
   gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
 }

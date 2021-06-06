@@ -14,6 +14,14 @@ export class PannelEl extends PElement<PannelElChild> {
 
     height = 0
 
+    name: string 
+
+    constructor() {
+      super()
+      this.name =  `default-${this.id}`
+    }
+
+
     addChild(child: PannelElChild): PannelElChild {
         if(!this.activeLayerId) this.activeLayerId = child.id
         return super.addChild(child)

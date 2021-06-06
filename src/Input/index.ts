@@ -78,17 +78,22 @@ export class Input {
     protected prePress = 0
 
 
+    protected toFixNumber(val: number, precide: number): number {
+        
+        return Number(val.toFixed(precide))
+    }
+
     protected getPress(nextEvent: PointerEvent) {
 
         if (nextEvent.pointerType === 'pen') {
-            return nextEvent.pressure
+            return this.toFixNumber(nextEvent.pressure, 2)
         }
         
         if (nextEvent.pointerType === 'touch') {
             let curPress = ((nextEvent.width * nextEvent.height) -1)
             this.prePress += 0.1*(curPress - this.prePress)
             this.prePress = Math.min(Math.max(this.prePress, 0), 1)  
-            return  this.prePress
+            return  this.toFixNumber(this.prePress, 2)
         }
         
         if (!this.preEventInfo.timeStamp) {
@@ -114,7 +119,7 @@ export class Input {
             y: nextEvent.offsetY,
             timeStamp: now,
         }
-        return this.prePress
+        return this.toFixNumber(this.prePress, 2)
 
     }
 
@@ -126,9 +131,9 @@ export class Input {
         // if (e.pointerType !== 'pen') return
         if (!this.curBrush) return
         const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : []
-        // const nextEvents:PointerEvent[] = e.getPredictedEvents? e.getPredictedEvents(): []
+        const nextEvents:PointerEvent[] = e.getPredictedEvents? e.getPredictedEvents(): []
         events.push(e)
-        this.loadBrushData(events, [])
+        this.loadBrushData(events, nextEvents)
         this.onUpdate(this.curBrush)
         console.timeEnd('onPointMove');
     }
@@ -140,10 +145,10 @@ export class Input {
       if(e.pointerId !== this.pointId) return
       if(!this.curBrush)  return
       this.curBrush.nextData = []
-      this.onEnd(this.curBrush)
-      this.curBrush = null
       this.pointId = NaN
       this.preEventInfo.timeStamp = NaN
+      this.onEnd(this.curBrush)
+      this.curBrush = null
       console.timeEnd('onPointEnd');
       // const events: PointerEvent[] = e.getCoalescedEvents? e.getCoalescedEvents() : [e]
     }

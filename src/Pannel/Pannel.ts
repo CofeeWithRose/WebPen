@@ -72,6 +72,7 @@ export class Pannel implements PannelInfer {
 
     protected onInputEnd = (brushEl: BrushEl) => {
       if (!this.pannelEl) return
+      this.renderEngin.renderRealTime(brushEl)
       this.renderEngin.submitRealTime()
       this.recorder.addOperate( { 
         type: 'addBrush', 

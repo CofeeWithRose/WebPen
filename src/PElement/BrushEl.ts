@@ -6,7 +6,7 @@ export class BrushEl extends PElement<never> {
 
     readonly tag = EL_TAGS.BRUSH
 
-    brushType: BRUSH_TYPES = BRUSH_TYPES.UNKNOW
+    brushType: BRUSH_TYPES = BRUSH_TYPES.PEN
 
     readonly  state: BrushState = { width:10, color: new Color() }
 
